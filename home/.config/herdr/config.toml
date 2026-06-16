@@ -27,8 +27,7 @@ yellow = "#eed49f"
 channel = "stable"
 
 [keys]
-# tmux prefix: C-;
-prefix = "ctrl+semicolon"
+prefix = "ctrl+a"
 
 # tmux-style basics.
 help = "prefix+?"

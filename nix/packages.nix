@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   # CLI tools, native nixpkgs. Sorted by attribute name; `dot package add <x>`
@@ -48,5 +48,7 @@
     yazi
     zig
     zoxide
+    inputs.hunk.packages.${pkgs.stdenv.hostPlatform.system}.hunk
+    inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.herdr
   ];
 }

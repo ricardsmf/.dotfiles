@@ -18,7 +18,6 @@
 
     taps = [
       "dmmulroy/tap"
-      "modem-dev/tap"
     ];
 
     # Formulas with no nixpkgs equivalent or from custom taps.
@@ -27,8 +26,6 @@
     # visible to the nix fish.)
     brews = [
       "jj-starship" # dmmulroy/tap
-      "hunk" # modem-dev/tap
-      "herdr"
     ];
 
     casks = [

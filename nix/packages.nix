@@ -25,9 +25,11 @@
     jq
     jujutsu
     just
+    kitty
     lazygit
     llvm
     llvm.dev # provides llvm-config (separate dev output)
+    mpv
     neovim
     python314
     ripgrep
@@ -43,6 +45,7 @@
     wasm-tools
     wasmtime
     wget
+    yazi
     zig
     zoxide
   ];

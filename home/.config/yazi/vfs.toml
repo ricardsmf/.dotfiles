@@ -1,0 +1,6 @@
+[services.webserver]
+type           = "sftp"
+host           = "141.253.199.50"
+user           = "ubuntu"
+port           = 22
+identity_agent = "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"

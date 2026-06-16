@@ -34,7 +34,6 @@
     casks = [
       "claude-code@latest"
       "cleanshot"
-      "kitty"
       "orbstack"
       "raycast"
       "yaak@beta"

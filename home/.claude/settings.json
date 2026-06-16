@@ -1,9 +1,23 @@
 {
-  "enabledPlugins": {
-    "gopls-lsp@claude-plugins-official": true,
-    "atlassian@claude-plugins-official": true
-  },
   "effortLevel": "high",
+  "enabledPlugins": {
+    "atlassian@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "bash '/Users/ricardoferreira/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ]
+  },
   "mcpServers": {
     "cloudflare-api": {
       "url": "https://mcp.cloudflare.com/mcp"

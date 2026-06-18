@@ -45,7 +45,7 @@ Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
 | Shell function | `home/.config/fish/functions/` |
 | Git alias | `home/.config/git/config` [alias] section |
 | Neovim plugin | `home/.config/nvim/lua/plugins/<name>.lua` |
-| Neovim keymap | `home/.config/nvim/lua/dmmulroy/keymaps.lua` |
+| Neovim keymap | `home/.config/nvim/lua/ricardsmf/keymaps.lua` |
 | Tmux binding | `home/.config/tmux/tmux.conf` |
 | Starship prompt | `home/.config/starship.toml` |
 | Pi extension | `home/.pi/agent/extensions/<name>/` |
@@ -89,7 +89,7 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 | Tool | Entry | Notes |
 |------|-------|-------|
 | Fish | `config.fish` | Sources `conf.d/`, sets EDITOR/MANPAGER |
-| Neovim | `init.lua` | 1 line: `require("dmmulroy")` |
+| Neovim | `init.lua` | 1 line: `require("ricardsmf")` |
 | Tmux | `tmux.conf` | Prefix `C-;`, auto-installs TPM |
 | Git | `config` | SSH signing, `pull.rebase`, conditional include |
 | Starship | `starship.toml` | 2s timeout (Vite+ shims), custom.scm after dir |

@@ -9,9 +9,9 @@ Lua-based, lazy.nvim managed. TypeScript-focused w/ LSP.
 
 ```
 nvim/
-├── init.lua              # Entry: require("dmmulroy")
+├── init.lua              # Entry: require("ricardsmf")
 ├── lua/
-│   ├── dmmulroy/         # Personal config module (13 files)
+│   ├── ricardsmf/         # Personal config module (13 files)
 │   │   ├── init.lua      # Orchestrates all requires
 │   │   ├── keymaps.lua   # All keybindings (450 lines, exports map_lsp_keybinds)
 │   │   ├── options.lua   # vim.opt settings
@@ -27,8 +27,8 @@ nvim/
 | Task | Location |
 |------|----------|
 | Add plugin | `lua/plugins/<name>.lua` returning spec table |
-| Add keymap | `lua/dmmulroy/keymaps.lua` |
-| Change option | `lua/dmmulroy/options.lua` |
+| Add keymap | `lua/ricardsmf/keymaps.lua` |
+| Change option | `lua/ricardsmf/options.lua` |
 | LSP server | `lua/plugins/lsp.lua` — add to `servers` table |
 | Formatter | `lua/plugins/conform.lua` — formatter chain with conditions |
 | Completion | `lua/plugins/blink-cmp.lua` (not nvim-cmp) |

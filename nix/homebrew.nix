@@ -25,7 +25,8 @@
     # the brew formula pulled in fish as a dependency and its function wasn't
     # visible to the nix fish.)
     brews = [
-      "jj-starship" # dmmulroy/tap
+      "jj-starship"
+      "vite-plus"
     ];
 
     casks = [

@@ -1,7 +1,6 @@
 # Skills we deliberately don't sync from mattpocock/skills.
 # One skill name per line. Comments start with #.
 caveman
-grill-me
 write-a-skill
 scaffold-exercises
 migrate-to-shoehorn

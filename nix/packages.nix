@@ -12,6 +12,7 @@
     cloc
     cloudflared
     cmake
+    deno
     direnv
     doggo
     doppler
@@ -48,7 +49,5 @@
     yazi
     zig
     zoxide
-    inputs.hunk.packages.${pkgs.stdenv.hostPlatform.system}.hunk
-    inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.herdr
   ];
 }

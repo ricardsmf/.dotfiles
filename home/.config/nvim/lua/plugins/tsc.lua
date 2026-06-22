@@ -1,6 +1,6 @@
 return {
 	{
-		"ricardsmf/tsc.nvim",
+		"dmmulroy/tsc.nvim",
 		lazy = true,
 		ft = { "typescript", "typescriptreact" },
 		config = function()

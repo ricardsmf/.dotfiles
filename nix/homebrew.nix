@@ -16,21 +16,27 @@
       upgrade = true;
     };
 
+    # Third-party taps require `trusted = true` since Homebrew 6.0 (tap trust),
+    # or `brew bundle` refuses to load their formulas during activation.
     taps = [
-      "dmmulroy/tap"
+      { name = "dmmulroy/tap"; trusted = true; }
+      { name = "modem-dev/tap"; trusted = true; }
     ];
 
     # Formulas with no nixpkgs equivalent or from custom taps.
+    # `dot package add <x> brew` inserts into `brews` below.
     # (fisher is vendored into home/.config/fish/functions/fisher.fish instead —
     # the brew formula pulled in fish as a dependency and its function wasn't
     # visible to the nix fish.)
     brews = [
+      "herdr"
+      "hunk"
       "jj-starship"
       "vite-plus"
     ];
 
     casks = [
-      "claude-code@latest"
+      "claude-code"
       "cleanshot"
       "orbstack"
       "raycast"

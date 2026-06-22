@@ -5,18 +5,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    hunk = {
-        url = "github:modem-dev/hunk";
-        inputs.nixpkgs.follows = "nixpkgs";
-    };
-    herdr = {
-        url = "github:ogulcancelik/herdr";
-        inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
-    inputs@{ self, nixpkgs, nix-darwin, hunk, herdr }:
+    inputs@{ self, nixpkgs, nix-darwin }:
     {
       darwinConfigurations."PT-RICARDOFERREIRA" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";

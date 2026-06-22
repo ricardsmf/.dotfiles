@@ -981,8 +981,9 @@ complete -c dot -n "__fish_seen_subcommand_from package" -n "not __fish_seen_sub
 complete -c dot -n "__fish_seen_subcommand_from package" -n "not __fish_seen_subcommand_from add remove update list help" -a "help" -d "Show package help"
 
 # Package add type completions
-complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -n "not __fish_seen_subcommand_from pkg cask" -a "pkg" -d "nixpkgs attribute (environment.systemPackages)"
-complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -n "not __fish_seen_subcommand_from pkg cask" -a "cask" -d "Homebrew cask"
+complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -n "not __fish_seen_subcommand_from pkg brew cask" -a "pkg" -d "nixpkgs attribute (environment.systemPackages)"
+complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -n "not __fish_seen_subcommand_from pkg brew cask" -a "brew" -d "Homebrew formula"
+complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -n "not __fish_seen_subcommand_from pkg brew cask" -a "cask" -d "Homebrew cask"
 
 # Benchmark-shell command options
 complete -c dot -n "__fish_seen_subcommand_from benchmark-shell" -s "r" -l "runs" -d "Number of benchmark runs" -xa "5 10 15 20 25 30"
@@ -1345,10 +1346,14 @@ cmd_package() {
 # Insert <name> into a nix list, kept sorted. <marker> is a substring that
 # identifies the list's opening line; the list ends at the next "]".
 #   quote=1 wraps the entry in quotes (casks/brews); quote=0 is a bare attr.
+#   <entry_override> (optional) is used verbatim as the line content (indent is
+#   still prepended); <name> remains the sort key. Used for attrset tap entries.
 _nix_list_add() {
-    local file="$1" marker="$2" indent="$3" quote="$4" name="$5"
+    local file="$1" marker="$2" indent="$3" quote="$4" name="$5" entry_override="${6:-}"
     local entry
-    if [[ "$quote" == 1 ]]; then entry="${indent}\"${name}\""; else entry="${indent}${name}"; fi
+    if [[ -n "$entry_override" ]]; then entry="${indent}${entry_override}"
+    elif [[ "$quote" == 1 ]]; then entry="${indent}\"${name}\""
+    else entry="${indent}${name}"; fi
     local tmp inserted=false inlist=false line trimmed
     tmp=$(mktemp)
     while IFS= read -r line || [[ -n "$line" ]]; do
@@ -1367,6 +1372,11 @@ _nix_list_add() {
         if [[ "$inlist" == true && "$inserted" == false ]]; then
             trimmed="$(echo "$line" | tr -d ' "')"
             trimmed="${trimmed%%#*}"
+            # attrset tap line, e.g. { name = "foo/bar"; trusted = true; } → foo/bar
+            if [[ "$trimmed" == *name=* ]]; then
+                trimmed="${trimmed#*name=}"
+                trimmed="${trimmed%%;*}"
+            fi
             if [[ -n "$trimmed" && "$name" < "$trimmed" ]]; then
                 echo "$entry" >>"$tmp"
                 inserted=true
@@ -1391,17 +1401,19 @@ cmd_package_add() {
 
     if [[ -z "$name" ]]; then
         print_error "Package name required"
-        print_info "Usage: ${SCRIPT_NAME} package add <name> [pkg|cask]"
-        print_info "  pkg  = nixpkgs attribute → ${NIX_PACKAGES##*/} (default)"
-        print_info "  cask = Homebrew cask     → ${NIX_HOMEBREW##*/}"
+        print_info "Usage: ${SCRIPT_NAME} package add <name> [pkg|brew|cask]"
+        print_info "  pkg  = nixpkgs attribute  → ${NIX_PACKAGES##*/} (default)"
+        print_info "  brew = Homebrew formula   → ${NIX_HOMEBREW##*/}"
+        print_info "  cask = Homebrew cask      → ${NIX_HOMEBREW##*/}"
         return 1
     fi
 
     case "$type" in
-    pkg | brew | formula) type="pkg" ;;
+    pkg) type="pkg" ;;
+    brew | formula) type="brew" ;;
     cask) type="cask" ;;
     *)
-        print_error "Type must be 'pkg' (nixpkgs) or 'cask' (homebrew)"
+        print_error "Type must be 'pkg' (nixpkgs), 'brew' (homebrew formula), or 'cask' (homebrew cask)"
         return 1
         ;;
     esac
@@ -1416,12 +1428,38 @@ cmd_package_add() {
         _nix_list_add "$NIX_PACKAGES" "with pkgs; [" "    " 0 "$name"
         print_success "Added '$name' to $(basename "$NIX_PACKAGES")"
     else
-        if grep -qE "^[[:space:]]+\"${name}\"" "$NIX_HOMEBREW"; then
-            print_warning "'$name' already in $(basename "$NIX_HOMEBREW")"
+        # brew or cask. A fully-qualified name (owner/tap/formula) is split so
+        # the tap is declared in `taps` and only the bare name goes in the list
+        # (brew bundle can't resolve a custom-tap entry without its tap).
+        local tap="" bare="$name"
+        if [[ "$name" == */*/* ]]; then
+            tap="${name%/*}"   # owner/tap
+            bare="${name##*/}" # formula or cask
+        fi
+
+        if grep -qE "^[[:space:]]+\"${bare}\"" "$NIX_HOMEBREW"; then
+            print_warning "'$bare' already in $(basename "$NIX_HOMEBREW")"
             return 0
         fi
-        _nix_list_add "$NIX_HOMEBREW" "casks = [" "      " 1 "$name"
-        print_success "Added cask '$name' to $(basename "$NIX_HOMEBREW")"
+
+        if [[ -n "$tap" ]]; then
+            if grep -qE "\"${tap}\"" "$NIX_HOMEBREW"; then
+                print_info "Tap '$tap' already declared"
+            else
+                # trusted = true: Homebrew 6.0 refuses untrusted third-party taps.
+                _nix_list_add "$NIX_HOMEBREW" "taps = [" "      " 1 "$tap" \
+                    "{ name = \"${tap}\"; trusted = true; }"
+                print_success "Added trusted tap '$tap' to $(basename "$NIX_HOMEBREW")"
+            fi
+        fi
+
+        if [[ "$type" == "brew" ]]; then
+            _nix_list_add "$NIX_HOMEBREW" "brews = [" "      " 1 "$bare"
+            print_success "Added formula '$bare' to $(basename "$NIX_HOMEBREW")"
+        else
+            _nix_list_add "$NIX_HOMEBREW" "casks = [" "      " 1 "$bare"
+            print_success "Added cask '$bare' to $(basename "$NIX_HOMEBREW")"
+        fi
     fi
 
     if confirm "Apply now (darwin-rebuild switch)?" "y"; then
@@ -1442,11 +1480,11 @@ cmd_package_remove() {
 
     print_header "Removing package: $name"
 
-    local in_pkg=false in_cask=false
+    local in_pkg=false in_brew=false
     grep -qE "^[[:space:]]+${name}([[:space:]]|\$)" "$NIX_PACKAGES" && in_pkg=true
-    grep -qE "^[[:space:]]+\"${name}\"" "$NIX_HOMEBREW" && in_cask=true
+    grep -qE "^[[:space:]]+\"${name}\"" "$NIX_HOMEBREW" && in_brew=true
 
-    if [[ "$in_pkg" == false && "$in_cask" == false ]]; then
+    if [[ "$in_pkg" == false && "$in_brew" == false ]]; then
         print_warning "'$name' not found in $(basename "$NIX_PACKAGES") or $(basename "$NIX_HOMEBREW")"
         return 0
     fi
@@ -1455,15 +1493,10 @@ cmd_package_remove() {
         _nix_list_remove "$NIX_PACKAGES" "$name"
         print_success "Removed '$name' from $(basename "$NIX_PACKAGES")"
     }
-    [[ "$in_cask" == true ]] && {
+    [[ "$in_brew" == true ]] && {
         _nix_list_remove "$NIX_HOMEBREW" "$name"
         print_success "Removed '$name' from $(basename "$NIX_HOMEBREW")"
     }
-
-    # Casks: cleanup="none" means a switch won't uninstall a removed cask — note it.
-    if [[ "$in_cask" == true ]]; then
-        print_info "Note: homebrew cleanup is 'none'; run 'brew uninstall --cask $name' to remove the app, or set onActivation.cleanup = \"zap\"."
-    fi
 
     if confirm "Apply now (darwin-rebuild switch)?" "y"; then
         _darwin_switch
@@ -1510,7 +1543,7 @@ cmd_package_help() {
     echo ""
 
     echo -e "${BOLD}SUBCOMMANDS:${RESET}"
-    echo "    add NAME [pkg|cask]   Add to the nix config and apply (default type: pkg)"
+    echo "    add NAME [pkg|brew|cask]  Add to the nix config and apply (default type: pkg)"
     echo "    remove NAME           Remove from the nix config and apply"
     echo "    update                Update flake inputs (nixpkgs + nix-darwin) and apply"
     echo "    list                  List packages declared in the nix config"
@@ -1518,15 +1551,19 @@ cmd_package_help() {
     echo ""
 
     echo -e "${BOLD}PARAMETERS:${RESET}"
-    echo "    NAME                  pkg: a nixpkgs attribute (e.g. ripgrep, jujutsu, awscli2)"
+    echo "    NAME                  pkg:  a nixpkgs attribute (e.g. ripgrep, jujutsu, awscli2)"
+    echo "                          brew: a Homebrew formula name (e.g. jj-starship)"
     echo "                          cask: a Homebrew cask name (e.g. raycast, zed)"
-    echo "    pkg                   nixpkgs attribute → ${NIX_PACKAGES##*/} (default)"
-    echo "    cask                  Homebrew cask    → ${NIX_HOMEBREW##*/}"
+    echo "    pkg                   nixpkgs attribute  → ${NIX_PACKAGES##*/} (default)"
+    echo "    brew                  Homebrew formula   → ${NIX_HOMEBREW##*/}"
+    echo "    cask                  Homebrew cask      → ${NIX_HOMEBREW##*/}"
     echo ""
 
     echo -e "${BOLD}EXAMPLES:${RESET}"
     echo "    ${SCRIPT_NAME} package list                # List declared packages"
     echo "    ${SCRIPT_NAME} package add ripgrep         # Add nixpkgs 'ripgrep' to packages.nix"
+    echo "    ${SCRIPT_NAME} package add jj-starship brew  # Add 'jj-starship' formula to homebrew.nix"
+    echo "    ${SCRIPT_NAME} package add modem-dev/tap/hunk brew  # Add the tap + 'hunk' formula"
     echo "    ${SCRIPT_NAME} package add slack cask      # Add 'slack' cask to homebrew.nix"
     echo "    ${SCRIPT_NAME} package remove ripgrep      # Remove 'ripgrep' from the nix config"
     echo "    ${SCRIPT_NAME} package update              # Bump flake.lock + darwin-rebuild switch"
@@ -1534,9 +1571,11 @@ cmd_package_help() {
 
     echo -e "${BOLD}NOTES:${RESET}"
     echo "    - 'pkg' adds the nixpkgs attribute name (not the brew name)"
+    echo "    - 'brew'/'cask' add the Homebrew formula/cask name to homebrew.nix"
+    echo "    - A fully-qualified name (owner/tap/name) also declares the tap in 'taps'"
     echo "    - Entries are kept sorted alphabetically within each list"
     echo "    - Adding/removing edits the nix file, then runs 'darwin-rebuild switch'"
-    echo "    - Cask removal won't uninstall the app while onActivation.cleanup = \"none\""
+    echo "    - With onActivation.cleanup = \"zap\", removed brews/casks are uninstalled on switch"
     echo ""
 }
 

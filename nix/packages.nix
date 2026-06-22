@@ -43,6 +43,8 @@
     tailscale
     tree
     tree-sitter
+    ty
+    uv
     wasm-tools
     wasmtime
     wget

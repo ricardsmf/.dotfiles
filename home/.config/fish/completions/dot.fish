@@ -34,8 +34,9 @@ complete -c dot -n "__fish_seen_subcommand_from package" -n "not __fish_seen_sub
 complete -c dot -n "__fish_seen_subcommand_from package" -n "not __fish_seen_subcommand_from add remove update list help" -a "help" -d "Show package help"
 
 # Package add type completions
-complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -n "not __fish_seen_subcommand_from pkg cask" -a "pkg" -d "nixpkgs attribute (environment.systemPackages)"
-complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -n "not __fish_seen_subcommand_from pkg cask" -a "cask" -d "Homebrew cask"
+complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -n "not __fish_seen_subcommand_from pkg brew cask" -a "pkg" -d "nixpkgs attribute (environment.systemPackages)"
+complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -n "not __fish_seen_subcommand_from pkg brew cask" -a "brew" -d "Homebrew formula"
+complete -c dot -n "__fish_seen_subcommand_from package; and __fish_seen_subcommand_from add" -n "not __fish_seen_subcommand_from pkg brew cask" -a "cask" -d "Homebrew cask"
 
 # Benchmark-shell command options
 complete -c dot -n "__fish_seen_subcommand_from benchmark-shell" -s "r" -l "runs" -d "Number of benchmark runs" -xa "5 10 15 20 25 30"

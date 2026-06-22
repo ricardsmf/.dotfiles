@@ -83,6 +83,7 @@ return {
 						},
 					},
 				},
+				ty = {},
 			}
 
 			local formatters = {

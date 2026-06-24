@@ -23,6 +23,7 @@
     gh
     gnupg
     gnused
+    go
     jq
     jujutsu
     just

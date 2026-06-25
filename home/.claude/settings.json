@@ -1,31 +1,19 @@
 {
-  "model": "opus[1m]",
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash '/Users/ricardoferreira/.claude/hooks/herdr-agent-state.sh' session",
-            "timeout": 10
-          }
-        ]
-      }
-    ]
-  },
-  "enabledPlugins": {
-    "atlassian@claude-plugins-official": true,
-    "gopls-lsp@claude-plugins-official": true
-  },
-  "effortLevel": "high",
-  "theme": "dark",
-  "mcpServers": {
-    "cloudflare-api": {
-      "url": "https://mcp.cloudflare.com/mcp"
+    "model": "opus[1m]",
+    "hooks": {},
+    "enabledPlugins": {
+        "atlassian@claude-plugins-official": true,
+        "gopls-lsp@claude-plugins-official": true
     },
-    "datadog": {
-      "url": "https://claude.ai/directory/connectors/68268024-1a91-4316-a9e1-14ecb814cb18"
-    }
-  }
+    "effortLevel": "high",
+    "theme": "dark",
+    "mcpServers": {
+        "cloudflare-api": {
+            "url": "https://mcp.cloudflare.com/mcp"
+        },
+        "datadog": {
+            "url": "https://claude.ai/directory/connectors/68268024-1a91-4316-a9e1-14ecb814cb18"
+        }
+    },
+    "tui": "fullscreen"
 }

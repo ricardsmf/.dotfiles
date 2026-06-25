@@ -34,6 +34,7 @@
     mpv
     neovim
     python314
+    rclone
     ripgrep
     rustc
     rustfmt

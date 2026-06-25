@@ -6,3 +6,4 @@ alias pbp 'pbpaste'
 alias pn 'pnpm'
 alias scratch 'nvim -c "setlocal buftype=nofile"'
 alias vimdiff 'nvim -d'
+alias s="kitten ssh"

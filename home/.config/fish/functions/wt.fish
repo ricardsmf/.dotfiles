@@ -1,7 +1,7 @@
 # Create a worktree and matching branch from main, or an optional base branch.
 function wt -d "Create a worktree and matching branch" -a branch base
   if test -z "$branch"
-    echo "Usage: "(status -u)" branch [base]"
+    echo "Usage: "(status current-function)" branch [base]"
     return 1
   end
 

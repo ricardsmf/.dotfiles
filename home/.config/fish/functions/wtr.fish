@@ -4,7 +4,7 @@ function wtr -d "Remove a worktree and its branch"
   or return 1
 
   if test (count $argv) -ne 1
-    echo "Usage: "(status -u)" [-k|--keep] directory"
+    echo "Usage: "(status current-function)" [-k|--keep] directory"
     return 1
   end
 

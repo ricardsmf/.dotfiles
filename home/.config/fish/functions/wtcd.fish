@@ -1,7 +1,7 @@
 # Change into a worktree directory under WT_DIR.
 function wtcd -d "Change into a worktree directory" -a directory
   if test -z "$directory"
-    echo "Usage: "(status -u)" directory"
+    echo "Usage: "(status current-function)" directory"
     return 1
   end
 

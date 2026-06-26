@@ -1,6 +1,6 @@
 function grename -d "Rename 'old' branch to 'new', including in origin remote" -a old new
   if test (count $argv) -ne 2
-    echo "Usage: "(status -u)" old_branch new_branch"
+    echo "Usage: "(status current-function)" old_branch new_branch"
     return 1
   end
   git branch -m $old $new

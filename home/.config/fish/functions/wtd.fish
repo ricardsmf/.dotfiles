@@ -1,7 +1,7 @@
 # Fetch a remote branch and create a detached worktree for reviewing it.
 function wtd -d "Create a detached worktree for a remote branch" -a branch directory
   if test -z "$branch"
-    echo "Usage: "(status -u)" branch [directory]"
+    echo "Usage: "(status current-function)" branch [directory]"
     return 1
   end
 

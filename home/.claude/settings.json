@@ -1,19 +1,9 @@
 {
-    "model": "opus[1m]",
-    "hooks": {},
-    "enabledPlugins": {
-        "atlassian@claude-plugins-official": true,
-        "gopls-lsp@claude-plugins-official": true
-    },
-    "effortLevel": "high",
-    "theme": "dark",
-    "mcpServers": {
-        "cloudflare-api": {
-            "url": "https://mcp.cloudflare.com/mcp"
-        },
-        "datadog": {
-            "url": "https://claude.ai/directory/connectors/68268024-1a91-4316-a9e1-14ecb814cb18"
-        }
-    },
-    "tui": "fullscreen"
+  "model": "opus[1m]",
+  "hooks": {},
+  "enabledPlugins": {},
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "theme": "dark",
+  "mcpServers": {}
 }

@@ -7,3 +7,6 @@ migrate-to-shoehorn
 setup-pre-commit
 sync-matt-pocock-skills
 git-guardrails-claude-code
+# code-review: installed locally as two-axis-review to avoid colliding
+# with Claude Code's built-in /code-review skill.
+code-review

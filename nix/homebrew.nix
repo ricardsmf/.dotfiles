@@ -40,7 +40,6 @@
       "orbstack"
       "raycast"
       "yaak@beta"
-      "zed"
     ];
   };
 }

@@ -11,6 +11,9 @@ edit = [
 open = [
 	{ run = "open %s1", desc = "Open" },
 ]
+pdf = [
+    { run = "bookokrat %s", block = true, for = "unix" },
+]
 
 [open]
 prepend_rules = [
@@ -31,7 +34,8 @@ prepend_rules = [
 	{ url = "*.log", use = "edit" },
 # open with normal / gnome / kde
 	{ url = "*.ods", use = "open" },
-	{ url = "*.pdf", use = "open" },
+	{ url = "*.pdf", use = "pdf" },
+    { url = "*.epub", use= "pdf" },
 # open with multimedia player
 	{ url = "*.mp3", use = "play" },
 ]

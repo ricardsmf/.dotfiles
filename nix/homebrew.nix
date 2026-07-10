@@ -29,6 +29,7 @@
     # the brew formula pulled in fish as a dependency and its function wasn't
     # visible to the nix fish.)
     brews = [
+      "bookokrat"
       "hunk"
       "jj-starship"
       "vite-plus"

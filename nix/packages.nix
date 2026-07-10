@@ -12,7 +12,6 @@
     cloc
     cloudflared
     cmake
-    deno
     direnv
     doggo
     doppler

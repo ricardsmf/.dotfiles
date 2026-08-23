@@ -1,5 +1,4 @@
 */**/.undodir
-lazy-lock.json
 home/.config/fish/fish_variables
 home/.config/fish/conf.d/secrets.fish
 home/.config/fish/conf.d/vault-funcs.fish
@@ -8,15 +7,12 @@ home/.config/opencode/amp_stuff/
 backups/
 packages/failed_packages_*.txt
 tmp/
-.DS_STORE
+.DS_Store
 
 
 # Python
 __pycache__/
 *.pyc
-
-# jj
-.jj
 
 # opencode
 home/.config/opencode/node_modules/
@@ -28,9 +24,6 @@ home/.config/herdr/*.log
 home/.config/herdr/session-history.json
 home/.config/herdr/session.json
 home/.config/herdr/release-notes.json
-
-# jj per-repo configs
-home/.config/jj/repos/
 
 # pi agent runtime/state (keep settings + customization resources tracked)
 home/.pi/agent/*

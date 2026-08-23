@@ -20,6 +20,7 @@
     fish
     fzf
     gh
+    git
     gnupg
     gnused
     go

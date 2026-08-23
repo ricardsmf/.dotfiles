@@ -249,7 +249,7 @@ dot package remove ripgrep
 - **Sorted maintenance**: entries kept alphabetically sorted within each list
 - **Atomic**: `darwin-rebuild switch` applies the whole config or rolls back
 - **Reproducible**: versions pinned via `flake.lock`; `dot update` bumps them
-- **Cask removal** won't uninstall the app while `onActivation.cleanup = "none"` in `nix/homebrew.nix`
+- **Cask/brew removal is destructive**: `onActivation.cleanup = "zap"` in `nix/homebrew.nix` means anything not declared there is uninstalled **and zapped** (config/data removed) on the next `darwin-rebuild switch`. Undeclared Homebrew installs will not survive a switch.
 
 ### Key Configurations
 

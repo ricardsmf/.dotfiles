@@ -69,7 +69,7 @@ Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
 
 - Edit `~/.config/*` directly (changes lost on stow)
 - `dot package add brew X` expecting the brew name — `pkg` adds the **nixpkgs attr** (e.g. `awscli2`, `ripgrep`)
-- Removing a cask won't uninstall the app while `onActivation.cleanup = "none"`
+- Assuming cask removal is safe — `onActivation.cleanup = "zap"`, so undeclared casks/brews are uninstalled **and zapped** on switch
 - Hardcode paths (use `$DOTFILES_DIR`, `$HOME`)
 - Nested git repos in stowed dirs (creates symlink issues)
 - node_modules in stowed dirs (pi extensions exception — gitignored)

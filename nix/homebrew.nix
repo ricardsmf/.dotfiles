@@ -19,11 +19,11 @@
     # Third-party taps require `trusted = true` since Homebrew 6.0 (tap trust),
     # or `brew bundle` refuses to load their formulas during activation.
     taps = [
-      { name = "dmmulroy/tap"; trusted = true; }
       { name = "modem-dev/tap"; trusted = true; }
     ];
 
-    # Formulas with no nixpkgs equivalent or from custom taps.
+    # Formulas with no nixpkgs equivalent (bookokrat, vite-plus are homebrew-core;
+    # hunk comes from modem-dev/tap).
     # `dot package add <x> brew` inserts into `brews` below.
     # (fisher is vendored into home/.config/fish/functions/fisher.fish instead —
     # the brew formula pulled in fish as a dependency and its function wasn't

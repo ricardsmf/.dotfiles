@@ -25,35 +25,29 @@ home/.config/herdr/session-history.json
 home/.config/herdr/session.json
 home/.config/herdr/release-notes.json
 
-# pi agent runtime/state (keep settings + customization resources tracked)
+# pi agent — deny everything by default. ~/.pi/agent holds auth.json and
+# models-store.json (credentials) plus sessions/ and npm/ (runtime state);
+# only the config explicitly allowed at the bottom is tracked.
 home/.pi/agent/*
 home/.pi/todos/*
 home/.pi/.pi/todos/*
 .pi/todos/*
 
-# pi MCP adapter runtime/secrets
+# pi secrets — listed explicitly so they stay ignored even if the
+# allow-list below is ever widened. Keep new entries ABOVE that list.
+home/.pi/agent/auth.json
+home/.pi/agent/models-store.json
 home/.pi/agent/mcp-oauth/
 home/.pi/agent/mcp-cache.json
 home/.pi/agent/mcp-npx-cache.json
 home/.pi/agent/mcp-auth.json
 home/.local/share/pi/mcp-auth.json
 
-# pi extensions node_modules
+# pi extensions node_modules (if extensions are added back)
 home/.pi/agent/extensions/**/node_modules/
 
-
-!home/.pi/agent/tsconfig.json
-!home/.pi/agent/package.json
-!home/.pi/agent/cloak.json
-!home/.pi/agent/themes/
-!home/.pi/agent/themes/*.json
-!home/.pi/agent/extensions/
-!home/.pi/agent/extensions/**
-!home/.pi/agent/mcp.json
-!home/.pi/agent/APPEND_SYSTEM.md
-!home/.pi/agent/skills/
-!home/.pi/agent/skills/**
-home/.pi/agent/skills/ui/
-home/.pi/agent/skills/account-id-tags/
+# --- tracked pi config (negations must stay last) ---
+!home/.pi/agent/settings.json
+!home/.pi/agent/AGENTS.md
 
 result

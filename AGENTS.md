@@ -25,9 +25,9 @@ Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
 │   ├── hunk/           # Diff viewer (modem-dev/tap)
 │   ├── starship.toml   # Prompt (custom.scm, 2s timeout for Vite+)
 │   └── ripgrep/        # rg config
-├── home/.pi/           # Pi agent workspace (AGENTS.md)
-│   ├── agent/extensions/ # 6 TypeScript extensions
-│   └── agent/skills/   # 15 agent skills
+├── home/.pi/agent/     # Pi: settings.json + global AGENTS.md (rest is gitignored)
+├── home/.claude/       # Claude Code: settings.json, CLAUDE.md, npm workspace
+│   └── skills/         # 32 Agent Skills — shared with pi, single source of truth
 ├── flake.nix           # nix-darwin flake; darwinConfigurations."PT-RICARDOFERREIRA"
 ├── nix/
 │   ├── darwin.nix      # system module (imports + nixpkgs config + primaryUser)
@@ -50,9 +50,10 @@ Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
 | Neovim keymap | `home/.config/nvim/lua/ricardsmf/keymaps.lua` |
 | Tmux binding | `home/.config/tmux/tmux.conf` |
 | Starship prompt | `home/.config/starship.toml` |
-| Pi extension | `home/.pi/agent/extensions/<name>/` |
-| Pi skill | `home/.pi/agent/skills/<name>/SKILL.md` |
+| Agent skill (pi + Claude) | `home/.claude/skills/<name>/SKILL.md` |
 | Pi settings | `home/.pi/agent/settings.json` |
+| Pi global instructions | `home/.pi/agent/AGENTS.md` |
+| Claude settings | `home/.claude/settings.json` |
 | Work git identity | Auto via `home/.config/git/work_config` for `~/Code/work/` |
 
 ## CONVENTIONS
@@ -62,8 +63,9 @@ Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
 - Neovim: 1 plugin per file in `lua/plugins/`, returns lazy.nvim spec
 - Git abbrs: ~180 oh-my-zsh style via `__git.init.fish`
 - Private helpers: prefix `__` (e.g., `__git.default_branch`)
-- Pi extensions: TypeScript, npm workspaces under `home/.pi/`
-- Pi skills: Markdown-first (`SKILL.md`) with optional bundled resources
+- Agent skills: Markdown-first, Agent Skills standard (`SKILL.md` + `name`/`description` frontmatter)
+- Skills live once in `home/.claude/skills/`; pi loads that same dir via `skills` in its `settings.json` — never duplicate them
+- `disable-model-invocation: true` hides a skill from the system prompt; invoke it with `/skill:<name>`
 
 ## ANTI-PATTERNS
 
@@ -72,7 +74,7 @@ Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
 - Assuming cask removal is safe — `onActivation.cleanup = "zap"`, so undeclared casks/brews are uninstalled **and zapped** on switch
 - Hardcode paths (use `$DOTFILES_DIR`, `$HOME`)
 - Nested git repos in stowed dirs (creates symlink issues)
-- node_modules in stowed dirs (pi extensions exception — gitignored)
+- node_modules in stowed dirs (`home/.claude` is an npm workspace over `skills/*` — gitignored there)
 
 ## COMMANDS
 
@@ -96,7 +98,8 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 | Kitty | `kitty.conf` | Terminal; `cmd+s` scrollback in nvim |
 | Git | `config` | SSH signing, `pull.rebase`, conditional include |
 | Starship | `starship.toml` | 2s timeout (Vite+ shims), custom.scm after dir |
-| Pi | `settings.json` | Default provider: opencode.cloudflare.dev, Catppuccin theme |
+| Pi | `settings.json` | anthropic/claude-opus-5, thinking `high`, skills from `~/.claude/skills` |
+| Claude Code | `settings.json` + `CLAUDE.md` | 32 skills under `skills/`; npm workspace |
 
 ## UNIQUE STYLES
 
@@ -119,5 +122,7 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 - Tmux theme must load BEFORE continuum (status-right conflict)
 - Starship `command_timeout = 2000` because Vite+ node shims are slow
 - `secrets.fish` is gitignored — contains env tokens for work services
-- `.pi/agent/*` mostly gitignored; extensions + skills explicitly un-ignored
+- `home/.pi/agent/*` is deny-all in `.gitignore` (`auth.json`, `models-store.json`, `sessions/`, `npm/` are secrets/runtime); only `settings.json` + `AGENTS.md` are un-ignored, and the negations must stay last in that block
+- pi and Claude Code share skills: both implement the Agent Skills standard, so pi points at `~/.claude/skills` instead of keeping copies
+- pi's global instructions are `~/.pi/agent/AGENTS.md`; the global `~/.claude/CLAUDE.md` is Claude-only (pi auto-discovers CLAUDE.md per-project, not the global one)
 - jj was removed; repo now uses git only

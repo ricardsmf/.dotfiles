@@ -92,7 +92,7 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 |------|-------|-------|
 | Fish | `config.fish` | Sources `conf.d/`, sets EDITOR/MANPAGER |
 | Neovim | `init.lua` | 1 line: `require("ricardsmf")` |
-| Tmux | `tmux.conf` | Prefix `C-;`, auto-installs TPM to `~/.local/share/tmux/plugins` |
+| Tmux | `tmux.conf` | Prefix `C-a`, auto-installs TPM to `~/.local/share/tmux/plugins` |
 | Kitty | `kitty.conf` | Terminal; `cmd+s` scrollback in nvim |
 | Git | `config` | SSH signing, `pull.rebase`, conditional include |
 | Starship | `starship.toml` | 2s timeout (Vite+ shims), custom.scm after dir |
@@ -100,7 +100,7 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 
 ## UNIQUE STYLES
 
-- tmux prefix: `C-;` (not `C-b`)
+- tmux prefix: `C-a` (not `C-b`); PT keyboard — `C-;` is really `C-S-,`, and `C-Space` collides with macOS input-source switching. `C-a` twice sends a literal `C-a`
 - tmux splits: `\` horizontal, `Enter` vertical
 - tmux extended-keys: `always` + CSI-u (required for pi/claude-code; fish 4.x parses CSI-u natively, so no shell-side workaround is needed)
 - tmux plugins install to `~/.local/share/tmux/plugins`, never into the stowed `tmux/` dir (avoids nested git repos)

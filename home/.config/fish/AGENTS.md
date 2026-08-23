@@ -12,7 +12,7 @@ fish/
 ├── config.fish         # Core: greeting, EDITOR, MANPAGER, dotfiles PATH
 ├── conf.d/             # Auto-sourced config fragments (17 files)
 │   ├── aliases.fish    # Shell aliases (c, code, pn, wr)
-│   ├── paths.fish      # PATH modifications (.dotfiles, .local/bin, ghostty)
+│   ├── paths.fish      # PATH modifications (.dotfiles, .local/bin, opencode)
 │   ├── git.fish        # Git abbreviations init
 │   ├── brew.fish       # Homebrew setup
 │   ├── tmux_keys.fish  # CSI-u Shift+Enter workaround for tmux extended-keys

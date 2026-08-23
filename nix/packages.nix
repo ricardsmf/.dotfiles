@@ -41,6 +41,7 @@
     stow
     stylua
     tailscale
+    tmux
     tree
     tree-sitter
     uv

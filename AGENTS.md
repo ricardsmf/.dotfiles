@@ -18,9 +18,11 @@ Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
 ├── home/.config/       # Stowed to ~/.config/
 │   ├── fish/           # Shell (AGENTS.md)
 │   ├── nvim/           # Editor (AGENTS.md)
-│   ├── tmux/           # Multiplexer + TPM plugins
+│   ├── tmux/           # Multiplexer (TPM plugins live in ~/.local/share/tmux)
 │   ├── git/            # Conditional work config
-│   ├── ghostty/        # Terminal
+│   ├── kitty/          # Terminal (+ kitty-scrollback.nvim)
+│   ├── yazi/           # File manager
+│   ├── hunk/           # Diff viewer (modem-dev/tap)
 │   ├── starship.toml   # Prompt (custom.scm, 2s timeout for Vite+)
 │   └── ripgrep/        # rg config
 ├── home/.pi/           # Pi agent workspace (AGENTS.md)
@@ -90,7 +92,8 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 |------|-------|-------|
 | Fish | `config.fish` | Sources `conf.d/`, sets EDITOR/MANPAGER |
 | Neovim | `init.lua` | 1 line: `require("ricardsmf")` |
-| Tmux | `tmux.conf` | Prefix `C-;`, auto-installs TPM |
+| Tmux | `tmux.conf` | Prefix `C-;`, auto-installs TPM to `~/.local/share/tmux/plugins` |
+| Kitty | `kitty.conf` | Terminal; `cmd+s` scrollback in nvim |
 | Git | `config` | SSH signing, `pull.rebase`, conditional include |
 | Starship | `starship.toml` | 2s timeout (Vite+ shims), custom.scm after dir |
 | Pi | `settings.json` | Default provider: opencode.cloudflare.dev, Catppuccin theme |
@@ -99,7 +102,10 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 
 - tmux prefix: `C-;` (not `C-b`)
 - tmux splits: `\` horizontal, `Enter` vertical
-- tmux extended-keys: `always` + CSI-u (required for pi/claude-code; fish needs `tmux_keys.fish` workaround)
+- tmux extended-keys: `always` + CSI-u (required for pi/claude-code; fish 4.x parses CSI-u natively, so no shell-side workaround is needed)
+- tmux plugins install to `~/.local/share/tmux/plugins`, never into the stowed `tmux/` dir (avoids nested git repos)
+- tmux/nvim seamless nav: `vim-tmux-navigator` (tmux) + `nvim-tmux-navigation` (nvim), driven by `keymaps.lua` `<C-h/j/k/l>`
+- catppuccin tmux v2 uses `@catppuccin_flavor` (no "u"); the v1 `@catppuccin_flavour` is silently ignored
 - nvim: `jj`/`JJ` exit insert, `H`/`L` line start/end
 - nvim completion: blink.cmp (not nvim-cmp), LSP source score_offset=1000
 - git: `fomo` = fetch origin main + rebase

@@ -218,7 +218,7 @@ dot package list
 
 # Add a CLI tool (nixpkgs attribute) — edits nix/packages.nix
 dot package add ripgrep
-dot package add jujutsu
+dot package add fd
 
 # Add a GUI app (Homebrew cask) — edits nix/homebrew.nix
 dot package add slack cask
@@ -233,19 +233,19 @@ dot package remove ripgrep
 #### Package Files
 
 **`nix/packages.nix`** — CLI tools via nixpkgs (`environment.systemPackages`):
-- Development tools: neovim, fish, jujutsu
+- Development tools: neovim, fish
 - CLI utilities: ripgrep, fd, fzf, starship
 - Toolchains: zig, wasmtime, wasm-tools
 
 **`nix/homebrew.nix`** — GUI casks + custom-tap brews managed by nix-darwin's Homebrew module:
 - Casks: raycast, cleanshot, orbstack, kitty, zed, yaak, claude-code
-- Custom taps/brews: jj-starship, hunk
+- Custom taps/brews: hunk, bookokrat, vite-plus
 
 **`nix/packages.work.nix`** — optional work-only packages (import on work machines).
 
 #### Package Notes
 
-- **`pkg` adds the nixpkgs attribute name** (e.g. `awscli2`, `jujutsu`), not the brew name
+- **`pkg` adds the nixpkgs attribute name** (e.g. `awscli2`, `ripgrep`), not the brew name
 - **Sorted maintenance**: entries kept alphabetically sorted within each list
 - **Atomic**: `darwin-rebuild switch` applies the whole config or rolls back
 - **Reproducible**: versions pinned via `flake.lock`; `dot update` bumps them

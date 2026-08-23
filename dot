@@ -605,16 +605,7 @@ cmd_update() {
     # Pull latest changes
     print_info "Pulling latest changes..."
 
-    # Check if jj is managing this repo (colocated mode)
-    if [[ -d "${DOTFILES_DIR}/.jj" ]] && command_exists jj; then
-        print_info "Detected jj-managed repository"
-        if jj git fetch -R "$DOTFILES_DIR" && jj -R "$DOTFILES_DIR" rebase -d 'trunk()'; then
-            print_success "Repository updated via jj"
-        else
-            print_error "Failed to update repository via jj"
-            return 1
-        fi
-    elif git -C "$DOTFILES_DIR" pull; then
+    if git -C "$DOTFILES_DIR" pull; then
         print_success "Repository updated"
     else
         print_error "Failed to update repository"
@@ -727,43 +718,23 @@ cmd_doctor() {
         ((++issues))
     fi
 
-    # Check jj (Jujutsu)
-    if command_exists jj; then
-        print_success "jj (Jujutsu) installed"
-
-        # Check if jj config exists
-        local jj_config="${HOME}/.config/jj/config.toml"
-        if [[ -f "$jj_config" ]]; then
-            print_success "jj config found"
-
-            # Check if user is configured
-            if grep -q "^\[user\]" "$jj_config" && grep -q "email" "$jj_config"; then
-                print_success "jj user configured"
-            else
-                print_warning "jj user not configured in config.toml"
-                print_info "Add [user] section with name and email"
-            fi
-        else
-            print_warning "jj config not found at $jj_config"
-            print_info "Run 'jj config edit --user' to configure"
-        fi
-    else
-        print_warning "jj (Jujutsu) not installed"
-        print_info "Install via nix: add 'jujutsu' to ${NIX_PACKAGES##*/} and run '${SCRIPT_NAME} update'"
-    fi
-
-    # Check symlinks
+    # Check symlinks (only those managed by this dotfiles repo)
     local broken_links=0
     while IFS= read -r -d '' link; do
         if [[ ! -e "$link" ]]; then
-            ((++broken_links))
+            local target
+            target=$(readlink "$link")
+            if [[ "$target" == *".dotfiles"* || "$target" == "${DOTFILES_DIR}"* ]]; then
+                ((++broken_links))
+            fi
         fi
     done < <(find "${HOME}" -maxdepth 3 -type l -print0 2>/dev/null)
 
     if [[ $broken_links -eq 0 ]]; then
         print_success "No broken symlinks found"
     else
-        print_warning "Found $broken_links broken symlinks"
+        print_warning "Found $broken_links broken dotfiles symlinks"
+        print_info "Run '${SCRIPT_NAME} stow' to re-link"
     fi
 
     # Check SSH key
@@ -1273,7 +1244,6 @@ cmd_check_packages() {
         gnused) bin="sed" ;;
         gnupg) bin="gpg" ;;
         neovim) bin="nvim" ;;
-        jujutsu) bin="jj" ;;
         ripgrep) bin="rg" ;;
         esac
         if command_exists "$bin"; then
@@ -1551,8 +1521,8 @@ cmd_package_help() {
     echo ""
 
     echo -e "${BOLD}PARAMETERS:${RESET}"
-    echo "    NAME                  pkg:  a nixpkgs attribute (e.g. ripgrep, jujutsu, awscli2)"
-    echo "                          brew: a Homebrew formula name (e.g. jj-starship)"
+    echo "    NAME                  pkg:  a nixpkgs attribute (e.g. ripgrep, awscli2)"
+    echo "                          brew: a Homebrew formula name (e.g. hunk)"
     echo "                          cask: a Homebrew cask name (e.g. raycast, zed)"
     echo "    pkg                   nixpkgs attribute  → ${NIX_PACKAGES##*/} (default)"
     echo "    brew                  Homebrew formula   → ${NIX_HOMEBREW##*/}"
@@ -1562,7 +1532,6 @@ cmd_package_help() {
     echo -e "${BOLD}EXAMPLES:${RESET}"
     echo "    ${SCRIPT_NAME} package list                # List declared packages"
     echo "    ${SCRIPT_NAME} package add ripgrep         # Add nixpkgs 'ripgrep' to packages.nix"
-    echo "    ${SCRIPT_NAME} package add jj-starship brew  # Add 'jj-starship' formula to homebrew.nix"
     echo "    ${SCRIPT_NAME} package add modem-dev/tap/hunk brew  # Add the tap + 'hunk' formula"
     echo "    ${SCRIPT_NAME} package add slack cask      # Add 'slack' cask to homebrew.nix"
     echo "    ${SCRIPT_NAME} package remove ripgrep      # Remove 'ripgrep' from the nix config"

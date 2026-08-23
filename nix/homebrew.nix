@@ -31,7 +31,6 @@
     brews = [
       "bookokrat"
       "hunk"
-      "jj-starship"
       "vite-plus"
     ];
 

@@ -24,7 +24,6 @@
     gnused
     go
     jq
-    jujutsu
     just
     kitty
     lazygit
@@ -44,7 +43,6 @@
     tailscale
     tree
     tree-sitter
-    ty
     uv
     wasm-tools
     wasmtime

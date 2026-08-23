@@ -66,7 +66,7 @@ Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
 ## ANTI-PATTERNS
 
 - Edit `~/.config/*` directly (changes lost on stow)
-- `dot package add brew X` expecting the brew name — `pkg` adds the **nixpkgs attr** (e.g. `awscli2`, `jujutsu`)
+- `dot package add brew X` expecting the brew name — `pkg` adds the **nixpkgs attr** (e.g. `awscli2`, `ripgrep`)
 - Removing a cask won't uninstall the app while `onActivation.cleanup = "none"`
 - Hardcode paths (use `$DOTFILES_DIR`, `$HOME`)
 - Nested git repos in stowed dirs (creates symlink issues)
@@ -77,7 +77,7 @@ Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
 ```bash
 dot init              # Full setup (brew, nix, darwin-rebuild, stow, bun, ssh, font, fish)
 dot update            # Pull + nix flake update + darwin-rebuild switch + restow + pi update + Pocock skills sync
-dot doctor            # Health check (checks brew, nix-darwin, stow, fish, jj)
+dot doctor            # Health check (checks brew, nix-darwin, stow, fish)
 dot stow              # Resymlink only
 dot package add X [pkg|cask]  # Edit nix config + darwin-rebuild switch (pkg = nixpkgs attr, default)
 dot benchmark-shell   # Fish startup perf

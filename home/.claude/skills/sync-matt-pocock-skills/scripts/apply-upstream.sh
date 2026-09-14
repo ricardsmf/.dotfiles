@@ -43,13 +43,14 @@ for patch_file in "$PATCHES_DIR"/"${SKILL_NAME}"__*.patch; do
     continue
   fi
 
-  if patch --quiet --forward "$target_file" "$patch_file" 2>/dev/null; then
+  if patch --quiet --forward --no-backup-if-mismatch "$target_file" "$patch_file" 2>/dev/null; then
     echo "  PATCHED: $rel_path"
     applied=$((applied + 1))
   else
     echo "  CONFLICT: $rel_path — patch did not apply cleanly"
     failed=$((failed + 1))
   fi
+  rm -f "$target_file.orig" "$target_file.rej"
 done
 
 if [[ -f "$TARGET_DIR/SKILL.md" && -f "$OVERRIDES_SCRIPT" ]]; then

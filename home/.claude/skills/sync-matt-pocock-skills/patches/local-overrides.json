@@ -10,16 +10,16 @@
       "prototype": {
         "disable-model-invocation": true
       },
-      "to-issues": {
+      "setup-matt-pocock-skills": {
         "disable-model-invocation": true
       },
-      "to-prd": {
+      "to-spec": {
+        "disable-model-invocation": true
+      },
+      "to-tickets": {
         "disable-model-invocation": true
       },
       "triage": {
-        "disable-model-invocation": true
-      },
-      "setup-matt-pocock-skills": {
         "disable-model-invocation": true
       }
     }

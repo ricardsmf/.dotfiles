@@ -41,7 +41,6 @@
       "cleanshot"
       "karabiner-elements"
       "orbstack"
-      "raycast"
       "yaak@beta"
     ];
   };

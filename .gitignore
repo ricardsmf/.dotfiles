@@ -46,6 +46,10 @@ home/.local/share/pi/mcp-auth.json
 # pi extensions node_modules (if extensions are added back)
 home/.pi/agent/extensions/**/node_modules/
 
+# karabiner runtime state (Karabiner-Elements writes into the stowed dir)
+home/.config/karabiner/automatic_backups/
+home/.config/karabiner/assets/
+
 # --- tracked pi config (negations must stay last) ---
 !home/.pi/agent/settings.json
 !home/.pi/agent/AGENTS.md

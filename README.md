@@ -42,6 +42,7 @@ After installation, the `dot` command will be available globally for ongoing man
 │   ├── .config/
 │   │   ├── fish/      # Fish shell configuration
 │   │   ├── git/       # Git configuration
+│   │   ├── karabiner/ # Hyper key (Caps Lock → ⌃⌥⌘⇧)
 │   │   ├── nvim/      # Neovim configuration
 │   │   ├── tmux/      # Tmux configuration
 │   │   └── ...
@@ -238,7 +239,7 @@ dot package remove ripgrep
 - Toolchains: zig, wasmtime, wasm-tools
 
 **`nix/homebrew.nix`** — GUI casks + custom-tap brews managed by nix-darwin's Homebrew module:
-- Casks: raycast, cleanshot, orbstack, kitty, zed, yaak, claude-code
+- Casks: raycast, cleanshot, orbstack, karabiner-elements, kitty, zed, yaak, claude-code
 - Custom taps/brews: hunk, bookokrat, vite-plus
 
 **`nix/packages.work.nix`** — optional work-only packages (import on work machines).

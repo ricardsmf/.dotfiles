@@ -23,6 +23,7 @@ Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
 │   ├── kitty/          # Terminal (+ kitty-scrollback.nvim)
 │   ├── yazi/           # File manager
 │   ├── hunk/           # Diff viewer (modem-dev/tap)
+│   ├── karabiner/      # Hyper key (Caps Lock -> ctrl+opt+cmd+shift)
 │   ├── starship.toml   # Prompt (custom.scm, 2s timeout for Vite+)
 │   └── ripgrep/        # rg config
 ├── home/.pi/agent/     # Pi: settings.json + global AGENTS.md (rest is gitignored)
@@ -49,6 +50,7 @@ Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
 | Neovim plugin | `home/.config/nvim/lua/plugins/<name>.lua` |
 | Neovim keymap | `home/.config/nvim/lua/ricardsmf/keymaps.lua` |
 | Tmux binding | `home/.config/tmux/tmux.conf` |
+| Hyper key / key remap | `home/.config/karabiner/karabiner.json` |
 | Starship prompt | `home/.config/starship.toml` |
 | Agent skill (pi + Claude) | `home/.claude/skills/<name>/SKILL.md` |
 | Pi settings | `home/.pi/agent/settings.json` |
@@ -74,6 +76,9 @@ Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
 - Assuming cask removal is safe — `onActivation.cleanup = "zap"`, so undeclared casks/brews are uninstalled **and zapped** on switch
 - Hardcode paths (use `$DOTFILES_DIR`, `$HOME`)
 - Nested git repos in stowed dirs (creates symlink issues)
+- Symlinking `karabiner.json` as a *file* — Karabiner-Elements rewrites it atomically and
+  would replace the symlink with a real file. Stow folds the whole `karabiner/` dir instead;
+  keep `~/.config/karabiner` absent before restowing so the fold happens.
 - node_modules in stowed dirs (`home/.claude` is an npm workspace over `skills/*` — gitignored there)
 
 ## COMMANDS
@@ -98,6 +103,7 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 | Kitty | `kitty.conf` | Terminal; `cmd+s` scrollback in nvim |
 | Git | `config` | SSH signing, `pull.rebase`, conditional include |
 | Starship | `starship.toml` | 2s timeout (Vite+ shims), custom.scm after dir |
+| Karabiner | `karabiner.json` | Caps Lock -> Hyper; `~/.config/karabiner` is a **dir** symlink |
 | Pi | `settings.json` | anthropic/claude-opus-5, thinking `high`, skills from `~/.claude/skills` |
 | Claude Code | `settings.json` + `CLAUDE.md` | 32 skills under `skills/`; npm workspace |
 
@@ -112,6 +118,9 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 - nvim: `jj`/`JJ` exit insert, `H`/`L` line start/end
 - nvim completion: blink.cmp (not nvim-cmp), LSP source score_offset=1000
 - git: `fomo` = fetch origin main + rebase
+- Hyper key is Karabiner's job, not Raycast's — Raycast's built-in Hyper Key is off
+  (`raycast_hyperKey_state.enabled = false`). Raycast command hotkeys still bind to
+  ⌃⌥⌘⇧ and keep working.
 - Theme: Catppuccin Macchiato across all tools
 
 ## NOTES

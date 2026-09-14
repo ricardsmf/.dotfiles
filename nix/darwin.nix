@@ -25,8 +25,6 @@
   # wants Mission Control to group windows by app.
   # spans-displays = true means "Displays have separate Spaces" is OFF.
   # Takes effect on next logout, not on switch.
-  system.defaults.spaces.spans-displays = true;
-  system.defaults.dock.expose-group-apps = true;
 
   # Used for backwards compatibility — do not change after first switch.
   system.stateVersion = 5;

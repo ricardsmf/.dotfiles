@@ -19,6 +19,7 @@
     # Third-party taps require `trusted = true` since Homebrew 6.0 (tap trust),
     # or `brew bundle` refuses to load their formulas during activation.
     taps = [
+      { name = "acsandmann/tap"; trusted = true; }
       { name = "modem-dev/tap"; trusted = true; }
     ];
 
@@ -31,6 +32,7 @@
     brews = [
       "bookokrat"
       "hunk"
+      "rift"
       "vite-plus"
     ];
 

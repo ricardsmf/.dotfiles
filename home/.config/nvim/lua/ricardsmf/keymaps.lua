@@ -316,8 +316,10 @@ vim.keymap.set("i", "JJ", "<esc>", { desc = "Exit insert mode (JJ)" })
 vim.keymap.set("v", "<space>", "<nop>", { desc = "Disable space (leader) in visual mode" })
 vim.keymap.set("v", "L", "$<left>", { desc = "Move to end of line in visual mode" })
 vim.keymap.set("v", "H", "^", { desc = "Move to beginning of line in visual mode" })
-vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected block down" })
-vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected block up" })
+-- Not <A-j>/<A-k>: AeroSpace grabs alt-j/alt-k globally, and Karabiner eats the
+-- right option key that kitty's macos_option_as_alt points at.
+vim.keymap.set("v", "<C-S-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected block down" })
+vim.keymap.set("v", "<C-S-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected block up" })
 
 vim.keymap.set("x", "<leader>p", '"_dP', { desc = "Paste without overwriting register" })
 

@@ -4,6 +4,7 @@
   # CLI tools, native nixpkgs. Sorted by attribute name; `dot package add <x>`
   # (type pkg) inserts here. Rust toolchain = cargo + rustc + clippy + rustfmt.
   environment.systemPackages = with pkgs; [
+    aerospace
     ast-grep
     awscli2
     btop

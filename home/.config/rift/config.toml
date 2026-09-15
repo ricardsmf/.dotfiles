@@ -9,9 +9,17 @@
 "Alt + Shift + K" = { move_node = "up" }
 "Alt + Shift + L" = { move_node = "right" }
 "Alt + Shift + Space" = "toggle_window_floating"
-
-[settings.layout]
-mode = "master_stack"
+"Alt + F" = "toggle_fullscreen"
+"Alt + Shift + F" = "toggle_fullscreen_within_gaps"
+"Alt + 0" = { switch_to_workspace = 0 }
+"Alt + 1" = { switch_to_workspace = 1 }
+"Alt + 2" = { switch_to_workspace = 2 }
+"Alt + 3" = { switch_to_workspace = 3 }
+"Alt + Shift + 0" = { move_window_to_workspace = 0 }
+"Alt + Shift + 1" = { move_window_to_workspace = 1 }
+"Alt + Shift + 2" = { move_window_to_workspace = 2 }
+"Alt + Shift + 3" = { move_window_to_workspace = 3 }
+"Alt + Tab" = "switch_to_last_workspace"
 
 [settings.layout.gaps.outer]
 top = 8.0
@@ -22,3 +30,69 @@ right = 8.0
 [settings.layout.gaps.inner]
 horizontal = 8.0
 vertical = 8.0
+
+[settings.ui.menu_bar]
+# enable menu bar workspace indicators
+enabled = true
+# if enabled, it will show all workspaces including empty ones. disabled because this
+# tends to take up too much room in the menubar and then is auto hidden by macos
+show_empty = false
+# choose between drawing every workspace or only the active workspace
+mode = "all"
+# when showing workspaces as labels ("index" or "name"), choose which label to render
+active_label = "index"
+# when displaying workspaces, choose whether to draw the layout preview or a set of labels
+# options are "layout" or "label"
+display_style = "layout"
+# .ron files in this folder appear under Layout Files in the menu bar
+layout_folder = "~/.config/rift/layouts"
+
+[settings.gestures]
+# Enable horizontal swipes to switch virtual workspaces
+enabled = true
+# If true, Rift consumes horizontal swipes handled by its trackpad gesture handlers
+# so macOS and the foreground app do not also handle them
+consume_dock_swipe = true
+# Invert horizontal direction (swap next/prev)
+invert_horizontal_swipe = false
+# Maximum vertical travel allowed for the horizontal swipe to register.
+# Accepts normalized fraction (0..1) or percent (0..100). Example: 0.4 or 40.0
+swipe_vertical_tolerance = 0.4
+# Skip empty workspaces when swiping
+skip_empty = true
+# Number of fingers required for swipe
+fingers = 3
+# Normalized horizontal distance (0..1) to trigger swipe for NSTouch-based detection
+distance_pct = 0.08
+# Haptic feedback on commit (generic | alignment | level_change)
+haptics_enabled = true
+haptic_pattern = "level_change"
+
+[virtual_workspaces]
+# Virtual workspaces
+# - enabled: if false, rift behaves like a simple tiling WM with a single space
+# - default_workspace_count: number of workspaces to create on startup (1–32)
+# - auto_assign_windows: when true, new windows can be auto-assigned using app_rules
+# - preserve_focus_per_workspace: remember last focused window per workspace
+# - workspace_auto_back_and_forth: when enabled, if you try to switch to the same workspace
+#   that's already active, it will switch to the last workspace instead
+# - prevent_wrapping: when true, next/previous workspace switching stops at the first/last
+#   workspace instead of wrapping around
+# - reapply_app_rules_on_title_change: if true, app rules are re-evaluated when a window's title changes
+enabled = true
+default_workspace_count = 4
+auto_assign_windows = true
+preserve_focus_per_workspace = true
+workspace_auto_back_and_forth = false
+prevent_wrapping = false
+reapply_app_rules_on_title_change = false
+
+workspace_names = [
+	"first",
+	"second",
+    "third",
+    "fourth"
+]
+
+[settings.layout]
+mode = "master_stack"

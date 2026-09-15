@@ -1,0 +1,24 @@
+[keys]
+"Alt + Z" = "toggle_space_activated"
+"Alt + H" = { move_focus = "left" }
+"Alt + J" = { move_focus = "down" }
+"Alt + K" = { move_focus = "up" }
+"Alt + L" = { move_focus = "right" }
+"Alt + Shift + H" = { move_node = "left" }
+"Alt + Shift + J" = { move_node = "down" }
+"Alt + Shift + K" = { move_node = "up" }
+"Alt + Shift + L" = { move_node = "right" }
+"Alt + Shift + Space" = "toggle_window_floating"
+
+[settings.layout]
+mode = "master_stack"
+
+[settings.layout.gaps.outer]
+top = 8.0
+left = 8.0
+bottom = 8.0
+right = 8.0
+
+[settings.layout.gaps.inner]
+horizontal = 8.0
+vertical = 8.0

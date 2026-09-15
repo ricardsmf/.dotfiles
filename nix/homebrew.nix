@@ -37,8 +37,8 @@
     ];
 
     casks = [
+      "bettershot"
       "claude-code"
-      "cleanshot"
       "karabiner-elements"
       "orbstack"
       "yaak@beta"

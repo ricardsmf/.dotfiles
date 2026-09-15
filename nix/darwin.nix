@@ -20,6 +20,16 @@
   # Register the nix-provided fish in /etc/shells so it can be the login shell.
   environment.shells = [ pkgs.fish ];
   programs.fish.enable = true;
+  progams.vicinae = {
+      enable = true;
+      systemd = {
+          enable = true;
+          autostart = true;
+          environment = {
+              USE_LAYER_SHELL = 1;
+          ;}
+      };
+  };
 
   # AeroSpace works more reliably with one Space spanning both displays, and
   # wants Mission Control to group windows by app.

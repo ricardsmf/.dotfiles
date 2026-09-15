@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   imports = [
@@ -20,15 +20,20 @@
   # Register the nix-provided fish in /etc/shells so it can be the login shell.
   environment.shells = [ pkgs.fish ];
   programs.fish.enable = true;
-  programs.vicinae = {
-      enable = true;
-      systemd = {
-          enable = true;
-          autostart = true;
-          environment = {
-              USE_LAYER_SHELL = 1;
-          };
-      };
+
+  # Vicinae is a background (LSUIElement) app: the darwin build installs the
+  # server at Vicinae.app/Contents/MacOS/Vicinae, while bin/vicinae is only the
+  # client CLI. Upstream ships a systemd unit, which is Linux-only, so the
+  # server is supervised by launchd here instead.
+  launchd.user.agents.vicinae = {
+    command = "${pkgs.vicinae}/Applications/Vicinae.app/Contents/MacOS/Vicinae";
+    serviceConfig = {
+      RunAtLoad = true;
+      # Crashed rather than plain `true`, so `vicinae` quit on purpose stays quit.
+      KeepAlive.Crashed = true;
+      StandardOutPath = "/Users/${config.system.primaryUser}/Library/Logs/vicinae.log";
+      StandardErrorPath = "/Users/${config.system.primaryUser}/Library/Logs/vicinae.err.log";
+    };
   };
 
   # AeroSpace works more reliably with one Space spanning both displays, and

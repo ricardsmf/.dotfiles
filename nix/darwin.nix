@@ -20,7 +20,7 @@
   # Register the nix-provided fish in /etc/shells so it can be the login shell.
   environment.shells = [ pkgs.fish ];
   programs.fish.enable = true;
-  progams.vicinae = {
+  programs.vicinae = {
       enable = true;
       systemd = {
           enable = true;

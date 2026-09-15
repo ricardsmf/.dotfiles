@@ -21,7 +21,7 @@
     taps = [
       { name = "acsandmann/tap"; trusted = true; }
       { name = "modem-dev/tap"; trusted = true; }
-      { name = "abue-ammar/tinycast2"; trusted = true; }
+      { name = "abue-ammar/tinycast"; trusted = true; }
     ];
 
     # Formulas with no nixpkgs equivalent (bookokrat, vite-plus are homebrew-core;

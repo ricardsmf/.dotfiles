@@ -46,7 +46,6 @@
     tree
     tree-sitter
     uv
-    vicinae
     wasm-tools
     wasmtime
     wget

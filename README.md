@@ -86,10 +86,9 @@ dot init --skip-ssh --skip-font
 3. Applies the nix-darwin configuration (`darwin-rebuild switch`) — installs CLI tools from nixpkgs and GUI casks via the Homebrew module
 4. Creates symlinks with GNU Stow
 5. Installs Bun runtime
-6. Installs pi via the Vite+ tool registry
-7. Generates SSH key for GitHub (optional)
-8. Installs MonoLisa font (optional)
-9. Sets up Fish shell with plugins
+6. Generates SSH key for GitHub (optional)
+7. Installs MonoLisa font (optional)
+8. Sets up Fish shell with plugins
 
 ### Maintenance Commands
 
@@ -240,7 +239,6 @@ dot package remove ripgrep
 
 **`nix/homebrew.nix`** — GUI casks + custom-tap brews managed by nix-darwin's Homebrew module:
 - Casks: raycast, cleanshot, orbstack, karabiner-elements, kitty, zed, yaak, claude-code
-- Custom taps/brews: hunk, bookokrat, vite-plus
 
 **`nix/packages.work.nix`** — optional work-only packages (import on work machines).
 
@@ -368,12 +366,6 @@ dot doctor
 dot stow
 ```
 
-**pi installation issues:**
-```bash
-# Ensure Vite+ is installed, then install pi from the tool registry
-curl -fsSL https://vite.plus | bash
-vp install -g @mariozechner/pi-coding-agent
-```
 
 ### Getting Help
 

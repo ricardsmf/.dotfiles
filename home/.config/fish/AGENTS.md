@@ -16,7 +16,6 @@ fish/
 │   ├── git.fish        # Git abbreviations init
 │   ├── brew.fish       # Homebrew setup
 │   ├── tmux_keys.fish  # CSI-u Shift+Enter workaround for tmux extended-keys
-│   ├── vite-plus.fish  # Sources Vite+ env
 │   ├── starship.fish   # Starship prompt init
 │   ├── secrets.fish    # Env tokens (GITIGNORED)
 │   └── ...             # Tool-specific (bun, zoxide, rustup, orbstack)
@@ -24,7 +23,7 @@ fish/
 │   ├── __git.*.fish    # Internal git helpers (5 files)
 │   ├── gwip.fish       # WIP commit
 │   └── ...             # Utilities (uuid, ulid, timer, notify, nato, rn)
-└── completions/        # Command completions (dot, bun, wrangler, kubectl, vp)
+└── completions/        # Command completions (dot, bun, wrangler, kubectl)
 ```
 
 ## WHERE TO LOOK

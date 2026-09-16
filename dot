@@ -121,7 +121,6 @@ TOOL_REGISTRY=(
     "nix-darwin pkgs   ;; -    ;; fn:_install_packages                          ;; true  ;; -         ;; false"
     "Stow dotfiles     ;; -    ;; fn:_stow_dotfiles                             ;; true  ;; -         ;; false"
     "Bun               ;; bun  ;; curl -fsSL https://bun.sh/install | bash      ;; true  ;; -         ;; true"
-    "Vite+             ;; vp   ;; curl -fsSL https://vite.plus | bash           ;; true  ;; -         ;; true"
     "SSH key           ;; -    ;; fn:_generate_ssh_key                          ;; false ;; SKIP_SSH  ;; false"
     "Fish shell        ;; -    ;; fn:_setup_fish_shell                          ;; false ;; -         ;; false"
 )

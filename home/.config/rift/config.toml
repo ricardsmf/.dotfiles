@@ -88,11 +88,11 @@ prevent_wrapping = false
 reapply_app_rules_on_title_change = false
 
 workspace_names = [
-	"first",
-	"second",
+    "first",
+    "second",
     "third",
     "fourth"
 ]
 
 [settings.layout]
-mode = "master_stack"
+mode = "bsp"

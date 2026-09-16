@@ -24,7 +24,7 @@
       { name = "abue-ammar/tinycast"; trusted = true; }
     ];
 
-    # Formulas with no nixpkgs equivalent (bookokrat, vite-plus are homebrew-core;
+    # Formulas with no nixpkgs equivalent (bookokrat is homebrew-core;
     # hunk comes from modem-dev/tap).
     # `dot package add <x> brew` inserts into `brews` below.
     # (fisher is vendored into home/.config/fish/functions/fisher.fish instead —
@@ -34,7 +34,6 @@
       "bookokrat"
       "hunk"
       "rift"
-      "vite-plus"
     ];
 
     casks = [

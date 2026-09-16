@@ -19,6 +19,8 @@
     "nix-command"
     "flakes"
   ];
+  # nix-darwin appends root on its own.
+  nix.settings.trusted-users = [ "ricardoferreira" ];
 
   # Determinate used to garbage-collect the store on its own; nix-darwin does not.
   nix.gc.automatic = true;

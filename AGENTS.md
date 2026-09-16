@@ -6,8 +6,9 @@
 macOS dev env via GNU Stow + nix-darwin. Fish + Neovim + Tmux + Git + pi.
 
 Packages: CLI tools are native nixpkgs (`environment.systemPackages`); GUI casks +
-custom-tap brews are managed by nix-darwin's `homebrew` module. Nix is installed via
-Determinate (so `nix.enable = false` in the darwin config). `dot` orchestrates
+custom-tap brews are managed by nix-darwin's `homebrew` module. Nix is Lix, installed via
+the Lix installer and pinned by nix-darwin (`nix.package = pkgs.lixPackageSets.stable.lix`).
+`dot` orchestrates
 `darwin-rebuild switch`; GNU Stow still handles dotfile symlinks.
 
 ## STRUCTURE

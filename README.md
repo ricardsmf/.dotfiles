@@ -82,7 +82,7 @@ dot init --skip-ssh --skip-font
 
 **What it does:**
 1. Installs Homebrew (if not present — nix-darwin drives it for casks)
-2. Installs Nix (Determinate Systems installer, if not present)
+2. Installs Nix (Lix installer, if not present)
 3. Applies the nix-darwin configuration (`darwin-rebuild switch`) — installs CLI tools from nixpkgs and GUI casks via the Homebrew module
 4. Creates symlinks with GNU Stow
 5. Installs Bun runtime

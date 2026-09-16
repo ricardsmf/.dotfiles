@@ -227,14 +227,14 @@ _darwin_switch() {
 # Custom installers called via "fn:" entries. These handle their own idempotency
 # and messaging (except the step header, which the registry loop prints).
 
-# Install the Nix package manager (Determinate Systems installer) if missing.
+# Install the Nix package manager (Lix installer) if missing.
 _install_nix() {
     if command_exists nix; then
         print_success "Nix is already installed"
         return 0
     fi
-    print_info "Installing Nix (Determinate Systems)..."
-    if curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --determinate; then
+    print_info "Installing Nix (Lix)..."
+    if curl --proto '=https' --tlsv1.2 -sSf -L https://install.lix.systems/lix | sh -s -- install; then
         print_success "Nix installed"
         # Make nix available in the current session
         if [[ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then

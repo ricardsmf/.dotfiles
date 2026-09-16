@@ -13,9 +13,12 @@
   # (e.g. the homebrew module) apply to this user.
   system.primaryUser = "ricardoferreira";
 
-  # Determinate manages the Nix installation/daemon itself, so nix-darwin must
-  # not. (flakes + nix-command are already enabled system-wide by Determinate.)
-  nix.enable = false;
+  nix.enable = true;
+  nix.package = pkgs.lixPackageSets.stable.lix;
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Register the nix-provided fish in /etc/shells so it can be the login shell.
   environment.shells = [ pkgs.fish ];

@@ -32,6 +32,7 @@
     llvm.dev # provides llvm-config (separate dev output)
     mpv
     neovim
+    nodejs_latest
     python314
     rclone
     ripgrep

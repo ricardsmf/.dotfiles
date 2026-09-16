@@ -11,14 +11,14 @@
 "Alt + Shift + Space" = "toggle_window_floating"
 "Alt + F" = "toggle_fullscreen"
 "Alt + Shift + F" = "toggle_fullscreen_within_gaps"
-"Alt + 0" = { switch_to_workspace = 0 }
-"Alt + 1" = { switch_to_workspace = 1 }
-"Alt + 2" = { switch_to_workspace = 2 }
-"Alt + 3" = { switch_to_workspace = 3 }
-"Alt + Shift + 0" = { move_window_to_workspace = 0 }
-"Alt + Shift + 1" = { move_window_to_workspace = 1 }
-"Alt + Shift + 2" = { move_window_to_workspace = 2 }
-"Alt + Shift + 3" = { move_window_to_workspace = 3 }
+"Ctrl + Alt + 0" = { switch_to_workspace = 0 }
+"Ctrl + Alt + 1" = { switch_to_workspace = 1 }
+"Ctrl + Alt + 2" = { switch_to_workspace = 2 }
+"Ctrl + Alt + 3" = { switch_to_workspace = 3 }
+"Ctrl + Alt + Shift + 0" = { move_window_to_workspace = 0 }
+"Ctrl + Alt + Shift + 1" = { move_window_to_workspace = 1 }
+"Ctrl + Alt + Shift + 2" = { move_window_to_workspace = 2 }
+"Ctrl + Alt + Shift + 3" = { move_window_to_workspace = 3 }
 "Alt + Tab" = "switch_to_last_workspace"
 
 [settings.layout.gaps.outer]

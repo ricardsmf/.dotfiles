@@ -44,7 +44,8 @@ fish/
 - Private helpers prefix `__` (e.g., `__git.default_branch`)
 - Namespace pattern: `__<namespace>.<function>` (dot-separated)
 - Fallback chains for cross-platform compat (uuidgen -> python3 -> node)
-- Fisher for plugin management (`fish_plugins`)
+- No plugin manager: jhillyerd/plugin-git is vendored into `functions/` and `conf.d/git.fish`,
+  checked in and ahead of nixpkgs' 0.4. Edit those files directly; never run `fisher`.
 - Use `fish_add_path` not manual `set PATH`
 - Use `set -gx` for global exports
 

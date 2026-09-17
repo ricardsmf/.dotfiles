@@ -35,7 +35,7 @@ the Lix installer and pinned by nix-darwin (`nix.package = pkgs.lixPackageSets.s
 │   ├── darwin.nix      # system module (imports + nixpkgs config + primaryUser)
 │   ├── packages.nix    # CLI tools → environment.systemPackages (nixpkgs)
 │   ├── homebrew.nix    # casks + custom-tap brews (homebrew module)
-│   └── packages.work.nix # optional work-only systemPackages
+│   └── home.nix        # home-manager: symlinks home/ into ~
 └── docs/
 ```
 
@@ -128,7 +128,6 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 ## NOTES
 
 - `dot update` handles WARP VPN brew API issues automatically (still relevant for cask downloads)
-- fisher is vendored at `home/.config/fish/functions/fisher.fish` (not in nixpkgs; brew copy wasn't visible to the nix fish)
 - `home/.config/fish/conf.d/0-nix.fish` prepends the nix bin dir early so prompt-init conf.d files (starship/zoxide) find nix tools
 - Tmux theme must load BEFORE continuum (status-right conflict)
 - Starship `command_timeout = 2000` because Vite+ node shims are slow

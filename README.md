@@ -52,7 +52,7 @@ After installation, the `dot` command will be available globally for ongoing man
 │   ├── darwin.nix     # System module
 │   ├── packages.nix   # CLI tools (nixpkgs → environment.systemPackages)
 │   ├── homebrew.nix   # GUI casks + custom-tap brews (homebrew module)
-│   └── packages.work.nix # Optional work-only packages
+│   └── home.nix       # home-manager: symlinks home/ into ~
 ├── CLAUDE.md          # Instructions for AI assistants
 └── README.md          # This file
 ```
@@ -232,8 +232,6 @@ dot package remove ripgrep
 **`nix/homebrew.nix`** — GUI casks + custom-tap brews managed by nix-darwin's Homebrew module:
 - Casks: raycast, cleanshot, orbstack, karabiner-elements, kitty, zed, yaak, claude-code
 
-**`nix/packages.work.nix`** — optional work-only packages (import on work machines).
-
 #### Package Notes
 
 - **`pkg` adds the nixpkgs attribute name** (e.g. `awscli2`, `ripgrep`), not the brew name
@@ -244,7 +242,7 @@ dot package remove ripgrep
 
 ### Key Configurations
 
-- **Fish Shell**: Custom functions, environment variables, and plugin management via Fisher
+- **Fish Shell**: Custom functions, environment variables, and vendored git abbreviations
 - **Neovim**: Lua-based configuration with lazy.nvim plugin manager
 - **Tmux**: Plugin management via TPM, session persistence, Vim-style navigation
 - **Git**: Conditional work configuration, custom aliases, GPG signing
@@ -254,7 +252,7 @@ dot package remove ripgrep
 - **home-manager**: Manages symlinks from `home/` to `~`, pointing at the live repo (`mkOutOfStoreSymlink`), so edits take effect immediately
 - **Modular Design**: Separate configs for different tools
 - **Conditional Loading**: Work-specific Git config for `~/Code/work/`
-- **Plugin Managers**: Each tool uses its own (lazy.nvim, TPM, Fisher)
+- **Plugin Managers**: Each tool uses its own (lazy.nvim, TPM); fish plugins are vendored
 - **Error Resilience**: Package installation continues despite individual failures
 - **jj Support**: Auto-detects jj-managed repos and uses appropriate update commands
 
@@ -398,8 +396,6 @@ dot init --skip-ssh --skip-font
 # Check what's missing
 dot check-packages
 
-# Apply work packages: import nix/packages.work.nix from nix/darwin.nix, then
-dot package update
 ```
 
 ### Shell Completions

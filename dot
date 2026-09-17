@@ -119,7 +119,6 @@ TOOL_REGISTRY=(
     "Homebrew          ;; brew ;; fn:_install_homebrew                          ;; true  ;; -         ;; true"
     "Nix               ;; nix  ;; fn:_install_nix                               ;; true  ;; -         ;; true"
     "nix-darwin pkgs   ;; -    ;; fn:_install_packages                          ;; true  ;; -         ;; false"
-    "Stow dotfiles     ;; -    ;; fn:_stow_dotfiles                             ;; true  ;; -         ;; false"
     "Bun               ;; bun  ;; curl -fsSL https://bun.sh/install | bash      ;; true  ;; -         ;; true"
     "SSH key           ;; -    ;; fn:_generate_ssh_key                          ;; false ;; SKIP_SSH  ;; false"
     "Fish shell        ;; -    ;; fn:_setup_fish_shell                          ;; false ;; -         ;; false"
@@ -315,24 +314,6 @@ _install_packages() {
         print_success "nix-darwin configuration applied"
     else
         print_error "darwin-rebuild switch failed"
-        return 1
-    fi
-}
-
-_stow_dotfiles() {
-
-    if ! command_exists stow; then
-        print_error "GNU Stow is not installed"
-        print_info "stow is provided by nix; run 'dot init' (or add 'stow' to nix/packages.nix)"
-        return 1
-    fi
-
-    print_info "Stowing files from ${HOME_DIR} to ${HOME}..."
-
-    if stow -R -v -d "${DOTFILES_DIR}" -t "${HOME}" home; then
-        print_success "Dotfiles stowed successfully"
-    else
-        print_error "Failed to stow dotfiles"
         return 1
     fi
 }
@@ -634,11 +615,6 @@ cmd_update() {
         fi
     fi
 
-    # Re-stow dotfiles before pi uses checked-out skills and configuration
-    if confirm "Re-stow dotfiles?" "y"; then
-        _stow_dotfiles
-    fi
-
     # Run the manual skills sync workflow via Claude Code headless
     if command_exists claude; then
         local sync_skill="${HOME_DIR}/.claude/skills/sync-matt-pocock-skills/SKILL.md"
@@ -682,14 +658,6 @@ cmd_doctor() {
         ((++issues))
     fi
 
-    # Check Stow
-    if command_exists stow; then
-        print_success "GNU Stow installed"
-    else
-        print_error "GNU Stow not installed"
-        ((++issues))
-    fi
-
     # Check Fish
     if command_exists fish; then
         print_success "Fish shell installed"
@@ -719,7 +687,7 @@ cmd_doctor() {
         print_success "No broken symlinks found"
     else
         print_warning "Found $broken_links broken dotfiles symlinks"
-        print_info "Run '${SCRIPT_NAME} stow' to re-link"
+        print_info "Run '${SCRIPT_NAME} update' to re-link (home-manager owns them)"
     fi
 
     # Check SSH key
@@ -843,27 +811,6 @@ cmd_unlink() {
     fi
 }
 
-cmd_stow() {
-    print_header "Stowing dotfiles"
-
-    if ! command_exists stow; then
-        print_error "GNU Stow is not installed"
-        print_info "stow is provided by nix; run 'dot init'"
-        return 1
-    fi
-
-    print_info "Creating symlinks for dotfiles..."
-
-    if stow -R -v -d "${DOTFILES_DIR}" -t "${HOME}" home; then
-        print_success "Dotfiles stowed successfully"
-        print_info "Configuration files are now symlinked to your home directory"
-    else
-        print_error "Failed to stow dotfiles"
-        print_info "Check for conflicting files in your home directory"
-        return 1
-    fi
-}
-
 cmd_edit() {
     print_header "Opening dotfiles in editor"
 
@@ -916,7 +863,6 @@ complete -c dot -n "__fish_use_subcommand" -a "check-packages" -d "Check which p
 complete -c dot -n "__fish_use_subcommand" -a "retry-failed" -d "Retry failed package installations"
 complete -c dot -n "__fish_use_subcommand" -a "benchmark-shell" -d "Benchmark Fish shell startup performance"
 complete -c dot -n "__fish_use_subcommand" -a "gen-ssh-key" -d "Generate SSH key for GitHub/GitLab with email"
-complete -c dot -n "__fish_use_subcommand" -a "stow" -d "Create symlinks for dotfiles using GNU Stow"
 complete -c dot -n "__fish_use_subcommand" -a "completions" -d "Generate Fish shell completions"
 complete -c dot -n "__fish_use_subcommand" -a "link" -d "Install dot command globally (create symlink in PATH)"
 complete -c dot -n "__fish_use_subcommand" -a "unlink" -d "Uninstall global dot command (remove symlink)"
@@ -1553,7 +1499,6 @@ cmd_help() {
     echo "    retry-failed        Retry failed package installations"
     echo "    benchmark-shell     Benchmark Fish shell startup performance"
     echo "    gen-ssh-key         Generate SSH key for GitHub/GitLab with email"
-    echo "    stow                Create symlinks for dotfiles using GNU Stow"
     echo "    completions         Generate Fish shell completions"
     echo "    link                Install dot command globally (create symlink in PATH)"
     echo "    unlink              Uninstall global dot command (remove symlink)"
@@ -1581,7 +1526,6 @@ cmd_help() {
     echo "    ${SCRIPT_NAME} benchmark-shell -r 20 -v  # Run 20 benchmarks with verbose output"
     echo "    ${SCRIPT_NAME} gen-ssh-key               # Generate SSH key (prompts for email)"
     echo "    ${SCRIPT_NAME} gen-ssh-key user@github.com  # Generate SSH key with email"
-    echo "    ${SCRIPT_NAME} stow                      # Create symlinks for dotfiles"
     echo "    ${SCRIPT_NAME} completions               # Generate Fish shell completions"
     echo "    ${SCRIPT_NAME} link                      # Install dot command globally in PATH"
     echo ""
@@ -1657,9 +1601,6 @@ main() {
         ;;
     gen-ssh-key)
         cmd_gen_ssh_key "$@"
-        ;;
-    stow)
-        cmd_stow "$@"
         ;;
     completions)
         cmd_completions "$@"

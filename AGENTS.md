@@ -3,20 +3,20 @@
 **Generated:** 2026-05-09T00:00:00Z
 **Commit:** 871ce6f
 
-macOS dev env via GNU Stow + nix-darwin. Fish + Neovim + Tmux + Git + pi.
+macOS dev env via nix-darwin + home-manager. Fish + Neovim + Tmux + Git + pi.
 
 Packages: CLI tools are native nixpkgs (`environment.systemPackages`); GUI casks +
 custom-tap brews are managed by nix-darwin's `homebrew` module. Nix is Lix, installed via
 the Lix installer and pinned by nix-darwin (`nix.package = pkgs.lixPackageSets.stable.lix`).
 `dot` orchestrates
-`darwin-rebuild switch`; GNU Stow still handles dotfile symlinks.
+`darwin-rebuild switch`; home-manager owns the dotfile symlinks (`nix/home.nix`).
 
 ## STRUCTURE
 
 ```
 .dotfiles/
-├── dot                 # CLI: init/update/doctor/stow/package (2500 lines bash)
-├── home/.config/       # Stowed to ~/.config/
+├── dot                 # CLI: init/update/doctor/package (2500 lines bash)
+├── home/.config/       # Symlinked to ~/.config/ by home-manager
 │   ├── fish/           # Shell (AGENTS.md)
 │   ├── nvim/           # Editor (AGENTS.md)
 │   ├── tmux/           # Multiplexer (TPM plugins live in ~/.local/share/tmux)
@@ -61,7 +61,10 @@ the Lix installer and pinned by nix-darwin (`nix.package = pkgs.lixPackageSets.s
 
 ## CONVENTIONS
 
-- Stow layout: `home/` mirrors `~`, stow creates symlinks
+- Link layout: `home/` mirrors `~`; `nix/home.nix` reads that tree and links each entry
+  with `mkOutOfStoreSymlink`, so the symlinks point at the **live repo**, not the store.
+  Editing through `~/.config/<app>` edits the repo file. A *new* top-level entry needs a
+  `darwin-rebuild switch` before it is linked; edits to existing files need nothing.
 - Fish: `conf.d/` auto-sourced, `functions/` lazy-loaded
 - Neovim: 1 plugin per file in `lua/plugins/`, returns lazy.nvim spec
 - Git abbrs: ~180 oh-my-zsh style via `__git.init.fish`
@@ -72,23 +75,21 @@ the Lix installer and pinned by nix-darwin (`nix.package = pkgs.lixPackageSets.s
 
 ## ANTI-PATTERNS
 
-- Edit `~/.config/*` directly (changes lost on stow)
 - `dot package add brew X` expecting the brew name — `pkg` adds the **nixpkgs attr** (e.g. `awscli2`, `ripgrep`)
 - Assuming cask removal is safe — `onActivation.cleanup = "zap"`, so undeclared casks/brews are uninstalled **and zapped** on switch
 - Hardcode paths (use `$DOTFILES_DIR`, `$HOME`)
-- Nested git repos in stowed dirs (creates symlink issues)
+- Nested git repos in linked dirs (creates symlink issues)
 - Symlinking `karabiner.json` as a *file* — Karabiner-Elements rewrites it atomically and
-  would replace the symlink with a real file. Stow folds the whole `karabiner/` dir instead;
-  keep `~/.config/karabiner` absent before restowing so the fold happens.
-- node_modules in stowed dirs (`home/.claude` is an npm workspace over `skills/*` — gitignored there)
+  would replace the symlink with a real file. `nix/home.nix` links the whole `karabiner/`
+  dir instead, which keeps it writable; never link the file individually.
+- node_modules in linked dirs (`home/.claude` is an npm workspace over `skills/*` — gitignored there)
 
 ## COMMANDS
 
 ```bash
-dot init              # Full setup (brew, nix, darwin-rebuild, stow, bun, ssh, font, fish)
-dot update            # Pull + nix flake update + darwin-rebuild switch + restow + pi update + Pocock skills sync
-dot doctor            # Health check (checks brew, nix-darwin, stow, fish)
-dot stow              # Resymlink only
+dot init              # Full setup (brew, nix, darwin-rebuild, bun, ssh, font, fish)
+dot update            # Pull + nix flake update + darwin-rebuild switch + pi update + Pocock skills sync
+dot doctor            # Health check (checks brew, nix-darwin, fish)
 dot package add X [pkg|cask]  # Edit nix config + darwin-rebuild switch (pkg = nixpkgs attr, default)
 dot benchmark-shell   # Fish startup perf
 dot gen-ssh-key       # Generate ed25519 key by email domain
@@ -113,7 +114,7 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 - tmux prefix: `C-a` (not `C-b`); PT keyboard — `C-;` is really `C-S-,`, and `C-Space` collides with macOS input-source switching. `C-a` twice sends a literal `C-a`
 - tmux splits: `\` horizontal, `Enter` vertical
 - tmux extended-keys: `always` + CSI-u (required for pi/claude-code; fish 4.x parses CSI-u natively, so no shell-side workaround is needed)
-- tmux plugins install to `~/.local/share/tmux/plugins`, never into the stowed `tmux/` dir (avoids nested git repos)
+- tmux plugins install to `~/.local/share/tmux/plugins`, never into the linked `tmux/` dir (avoids nested git repos)
 - tmux/nvim seamless nav: `vim-tmux-navigator` (tmux) + `nvim-tmux-navigation` (nvim), driven by `keymaps.lua` `<C-h/j/k/l>`
 - catppuccin tmux v2 uses `@catppuccin_flavor` (no "u"); the v1 `@catppuccin_flavour` is silently ignored
 - nvim: `jj`/`JJ` exit insert, `H`/`L` line start/end

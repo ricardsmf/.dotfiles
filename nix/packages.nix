@@ -48,7 +48,6 @@
     shellcheck
     sqls
     starship
-    stow
     stylua
     svelte-language-server
     tailscale

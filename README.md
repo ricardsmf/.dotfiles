@@ -7,7 +7,7 @@ A comprehensive, automated dotfiles management system for macOS development envi
 
 ## Overview
 
-This repository contains my personal development environment configuration, managed through a custom CLI tool called `dot`. It uses GNU Stow for symlink management and **nix-darwin** for package management — CLI tools come from nixpkgs while GUI casks are managed declaratively through nix-darwin's Homebrew module — and includes configurations for Fish shell, Neovim, Tmux, Git, and other essential development tools.
+This repository contains my personal development environment configuration, managed through a custom CLI tool called `dot`. It uses **nix-darwin** for package management and home-manager for symlink management — CLI tools come from nixpkgs while GUI casks are managed declaratively through nix-darwin's Homebrew module — and includes configurations for Fish shell, Neovim, Tmux, Git, and other essential development tools.
 
 ### Key Features
 
@@ -38,7 +38,7 @@ After installation, the `dot` command will be available globally for ongoing man
 ```
 ~/.dotfiles/
 ├── dot                 # Main CLI tool
-├── home/              # Configuration files (stowed to ~)
+├── home/              # Configuration files (symlinked to ~ by home-manager)
 │   ├── .config/
 │   │   ├── fish/      # Fish shell configuration
 │   │   ├── git/       # Git configuration
@@ -84,7 +84,7 @@ dot init --skip-ssh --skip-font
 1. Installs Homebrew (if not present — nix-darwin drives it for casks)
 2. Installs Nix (Lix installer, if not present)
 3. Applies the nix-darwin configuration (`darwin-rebuild switch`) — installs CLI tools from nixpkgs and GUI casks via the Homebrew module
-4. Creates symlinks with GNU Stow
+4. Creates symlinks with home-manager (part of `darwin-rebuild switch`)
 5. Installs Bun runtime
 6. Generates SSH key for GitHub (optional)
 7. Installs MonoLisa font (optional)
@@ -98,7 +98,6 @@ dot update
 ```
 - Pulls latest dotfiles changes (auto-detects jj vs git)
 - Bumps flake inputs (`nix flake update`) and applies them (`darwin-rebuild switch`); nix-darwin upgrades the declared casks via brew
-- Re-stows configuration files
 - Runs `pi update` to update pi and its configured packages
 - Runs pi headlessly with `/skill:sync-pocock-skills` and waits for the checked-in Matt Pocock skills sync to complete
 
@@ -187,13 +186,6 @@ dot edit
 ```
 Opens the dotfiles directory in your default editor (defined by `$EDITOR`).
 
-#### `dot stow` - Update Dotfiles Symlinks
-```bash
-# Create/update symlinks for configuration files
-dot stow
-```
-Re-creates symlinks from `home/` directory to your home directory (`~`). Use this after editing configuration files.
-
 #### `dot link` / `dot unlink` - Global dot Command Installation
 ```bash
 # Install dot command globally (add to PATH)
@@ -259,7 +251,7 @@ dot package remove ripgrep
 
 ### Architecture Highlights
 
-- **GNU Stow**: Manages symlinks from `home/` to `~`
+- **home-manager**: Manages symlinks from `home/` to `~`, pointing at the live repo (`mkOutOfStoreSymlink`), so edits take effect immediately
 - **Modular Design**: Separate configs for different tools
 - **Conditional Loading**: Work-specific Git config for `~/Code/work/`
 - **Plugin Managers**: Each tool uses its own (lazy.nvim, TPM, Fisher)
@@ -328,9 +320,9 @@ dot package update  # or: sudo darwin-rebuild switch --flake ~/.dotfiles#$(scuti
 ```
 
 #### Modifying Configurations
-1. Edit files in `home/` directory (not your actual home directory)
-2. Re-stow changes: `dot stow` (or `dot init` for full setup)
-3. Test configuration changes
+1. Edit files in `home/` directory, or through the `~` symlinks — they point at the repo, so it is the same file
+2. Test configuration changes
+3. Only a *new* file or directory needs `darwin-rebuild switch` to be linked
 
 #### Work-Specific Setup
 The system automatically applies work-specific Git configuration for repositories under `~/Code/work/`.
@@ -363,7 +355,7 @@ dot retry-failed
 dot doctor
 
 # Re-create symlinks
-dot stow
+sudo darwin-rebuild switch --flake ~/.dotfiles
 ```
 
 
@@ -393,8 +385,6 @@ dot stow
 # Test changes
 dot doctor
 
-# Re-stow if needed
-dot stow
 ```
 
 ## Advanced Usage
@@ -430,7 +420,6 @@ This repository is for personal use. Feel free to fork and adapt for your own ne
 ## Acknowledgments
 
 - **[Dillon Mulroy](https://github.com/dmmulroy)** — this repository is forked from his [dotfiles](https://github.com/dmmulroy/.dotfiles), which form the basis for nearly everything here, including the `dot` CLI. This project would not exist without his work.
-- [GNU Stow](https://www.gnu.org/software/stow/) for symlink management
 - [nix-darwin](https://github.com/nix-darwin/nix-darwin) + [nixpkgs](https://github.com/NixOS/nixpkgs) for package management
 - [Homebrew](https://brew.sh/) for GUI casks (driven by nix-darwin)
 - pi for AI assistance

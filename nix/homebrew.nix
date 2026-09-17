@@ -41,7 +41,6 @@
     brews = [
       "bookokrat"
       "hunk"
-      "rift"
     ];
 
     casks = [

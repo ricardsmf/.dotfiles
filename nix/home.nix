@@ -19,12 +19,14 @@ let
         "directory"
       ],
     }:
-    lib.mapAttrs' (
-      name: _:
-      lib.nameValuePair "${to}/${name}" {
-        source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/${from}/${name}";
-      }
-    ) (lib.filterAttrs (name: type: lib.elem type types && name != ".gitignore") (builtins.readDir src));
+    lib.mapAttrs'
+      (
+        name: _:
+        lib.nameValuePair "${to}/${name}" {
+          source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/${from}/${name}";
+        }
+      )
+      (lib.filterAttrs (name: type: lib.elem type types && name != ".gitignore") (builtins.readDir src));
 in
 {
   home.stateVersion = "26.11";

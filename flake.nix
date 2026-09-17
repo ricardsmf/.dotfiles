@@ -10,7 +10,12 @@
   };
 
   outputs =
-    inputs@{ self, nixpkgs, nix-darwin, home-manager }:
+    inputs@{
+      self,
+      nixpkgs,
+      nix-darwin,
+      home-manager,
+    }:
     {
       darwinConfigurations."PT-RICARDOFERREIRA" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -22,5 +27,7 @@
       };
 
       darwinPackages = self.darwinConfigurations."PT-RICARDOFERREIRA".pkgs;
+
+      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt-tree;
     };
 }

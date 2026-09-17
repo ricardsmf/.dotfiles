@@ -32,6 +32,12 @@
   # nix-darwin appends root on its own.
   nix.settings.trusted-users = [ "ricardoferreira" ];
 
+  # Pure flakes: no channels. Without this, nixPath carries a root channels
+  # profile that does not exist and every root eval warns about it. Keep
+  # <nixpkgs> working by pointing it at the flake input instead.
+  nix.channel.enable = false;
+  nix.nixPath = [ { nixpkgs = "${inputs.nixpkgs}"; } ];
+
   # Determinate used to garbage-collect the store on its own; nix-darwin does not.
   nix.gc.automatic = true;
   nix.gc.interval = {

@@ -1,10 +1,20 @@
-{ pkgs, config, ... }:
+{ pkgs, config, inputs, ... }:
 
 {
   imports = [
     ./packages.nix
     ./homebrew.nix
   ];
+
+  # home-manager derives homeDirectory from this.
+  users.users.ricardoferreira.home = "/Users/ricardoferreira";
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  # Stow owns most of ~/.config; back up rather than fail if the two collide.
+  home-manager.backupFileExtension = "hm-bak";
+  home-manager.extraSpecialArgs = { inherit inputs; };
+  home-manager.users.ricardoferreira = import ./home.nix;
 
   nixpkgs.hostPlatform = "aarch64-darwin";
   nixpkgs.config.allowUnfree = true;

@@ -12,24 +12,32 @@
       # Any intentional brew formula must be declared in `brews` below or
       # migrated to nixpkgs (nix/packages.nix), or it will be removed on switch.
       cleanup = "zap";
-      autoUpdate = true;
-      upgrade = true;
+      # Casks move when asked, not on every switch: `brew update && brew upgrade`,
+      # or bump a pinned version here. Same reason mason's auto-update was dropped.
+      autoUpdate = false;
+      upgrade = false;
     };
 
     # Third-party taps require `trusted = true` since Homebrew 6.0 (tap trust),
     # or `brew bundle` refuses to load their formulas during activation.
     taps = [
-      { name = "acsandmann/tap"; trusted = true; }
-      { name = "modem-dev/tap"; trusted = true; }
-      { name = "abue-ammar/tinycast"; trusted = true; }
+      {
+        name = "acsandmann/tap";
+        trusted = true;
+      }
+      {
+        name = "modem-dev/tap";
+        trusted = true;
+      }
+      {
+        name = "abue-ammar/tinycast";
+        trusted = true;
+      }
     ];
 
     # Formulas with no nixpkgs equivalent (bookokrat is homebrew-core;
     # hunk comes from modem-dev/tap).
     # `dot package add <x> brew` inserts into `brews` below.
-    # (fisher is vendored into home/.config/fish/functions/fisher.fish instead —
-    # the brew formula pulled in fish as a dependency and its function wasn't
-    # visible to the nix fish.)
     brews = [
       "bookokrat"
       "hunk"

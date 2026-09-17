@@ -7,6 +7,8 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    paneru.url = "github:karinushka/paneru";
+    paneru.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -15,6 +17,7 @@
       nixpkgs,
       nix-darwin,
       home-manager,
+      paneru,
     }:
     {
       darwinConfigurations."PT-RICARDOFERREIRA" = nix-darwin.lib.darwinSystem {

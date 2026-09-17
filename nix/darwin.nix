@@ -9,6 +9,7 @@
   imports = [
     ./packages.nix
     ./homebrew.nix
+    inputs.paneru.darwinModules.paneru
   ];
 
   # home-manager derives homeDirectory from this.
@@ -61,4 +62,5 @@
   system.stateVersion = 5;
 
   services.tailscale.enable = true;
+  services.paneru.enable = true;
 }

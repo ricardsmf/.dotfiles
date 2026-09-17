@@ -62,5 +62,25 @@
   system.stateVersion = 5;
 
   services.tailscale.enable = true;
-  services.paneru.enable = true;
+  services.paneru = {
+    enable = true;
+    # Paneru configuration
+    # See CONFIGURATION.md for a list of all options
+    settings = {
+      options = {
+        focus_follows_mouse = true;
+        mouse_follows_focus = true;
+        preset_column_widths = [0.25 0.33 0.5 0.66 0.75];
+      };
+      bindings = {
+        window_focus_west = "alt - h";
+        window_focus_east = "alt - l";
+        window_resize = "alt - r";
+        window_center = "alt - c";
+        window_balance = "alt - b";
+        quit = "ctrl + alt - q";
+      };
+    };
+  };
+}
 }

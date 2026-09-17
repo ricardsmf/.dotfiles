@@ -29,7 +29,7 @@ nvim/
 | Add plugin | `lua/plugins/<name>.lua` returning spec table |
 | Add keymap | `lua/ricardsmf/keymaps.lua` |
 | Change option | `lua/ricardsmf/options.lua` |
-| LSP server | `lua/plugins/lsp.lua` — add to `servers` table |
+| LSP server | `lua/plugins/lsp.lua` — add to `servers` table; install the binary with `dot package add` (no mason) |
 | Formatter | `lua/plugins/conform.lua` — formatter chain with conditions |
 | Completion | `lua/plugins/blink-cmp.lua` (not nvim-cmp) |
 | TypeScript | `lua/plugins/typescript-tools.lua` (not lspconfig) |
@@ -85,7 +85,11 @@ nvim/
 
 ## LSP SERVERS
 
-typescript-tools (TS/JS), lua_ls (+ lazydev), rust_analyzer, ocamllsp (manual via dune), tailwindcss, svelte, biome, eslint (autostart=false), zls (Zig), sqls, bashls, cssls, html, jsonls, marksman, yamlls, oxlint (needs `.oxlintrc.json`)
+Servers and formatters are installed from nixpkgs via `nix/packages.nix` in the
+dotfiles repo (`dot package add <attr>`), NOT mason — mason was removed. A server
+in the `servers` table with no matching nixpkgs entry simply never starts.
+
+typescript-tools (TS/JS), lua_ls (+ lazydev), rust_analyzer, tailwindcss, svelte, biome, eslint (autostart=false), zls (Zig), sqls, bashls, cssls, html, jsonls, marksman, yamlls, oxlint (needs `.oxlintrc.json`)
 
 ## FORMATTER CHAIN
 

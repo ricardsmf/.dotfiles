@@ -6,6 +6,8 @@
   environment.systemPackages = with pkgs; [
     ast-grep
     awscli2
+    bash-language-server
+    biome
     btop
     cargo
     clippy
@@ -30,28 +32,40 @@
     lazygit
     llvm
     llvm.dev # provides llvm-config (separate dev output)
+    lua-language-server
+    marksman
     mpv
     neovim
     nodejs_latest
+    oxlint
+    prettierd
     python314
     rclone
     ripgrep
+    rust-analyzer
     rustc
     rustfmt
     shellcheck
+    sqls
     starship
     stow
     stylua
+    svelte-language-server
     tailscale
+    tailwindcss-language-server
     tmux
     tree
     tree-sitter
+    ty
     uv
+    vscode-langservers-extracted
     wasm-tools
     wasmtime
     wget
+    yaml-language-server
     yazi
     zig
+    zls
     zoxide
   ];
 }

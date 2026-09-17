@@ -13,7 +13,6 @@ return {
 					diffview = true,
 					fidget = true,
 					harpoon = true,
-					mason = true,
 					native_lsp = { enabled = true },
 					noice = true,
 					notify = true,

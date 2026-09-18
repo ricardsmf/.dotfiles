@@ -61,6 +61,7 @@
     wasm-tools
     wasmtime
     wget
+    wireguard-tools
     yaml-language-server
     yazi
     zig

@@ -1,8 +1,3 @@
-# Paneru (scrolling window manager), declared through the flake input's own
-# nix-darwin module. Kept out of nix/darwin.nix so the settings block — which
-# is where the churn is — lives on its own, the way kitty.nix does.
-#
-# See paneru's CONFIGURATION.md for the full list of options.
 { inputs, ... }:
 
 {

@@ -7,7 +7,7 @@ A comprehensive, automated dotfiles management system for macOS development envi
 
 ## Overview
 
-This repository contains my personal development environment configuration, managed through a custom CLI tool called `dot`. It uses **nix-darwin** for package management and home-manager for symlink management — CLI tools come from nixpkgs while GUI casks are managed declaratively through nix-darwin's Homebrew module — and includes configurations for Fish shell, Neovim, Tmux, Git, and other essential development tools.
+This repository contains my personal development environment configuration, managed through a custom CLI tool called `dot`. It uses **nix-darwin** for package management and home-manager for symlink management and kitty's configuration — CLI tools come from nixpkgs while GUI casks are managed declaratively through nix-darwin's Homebrew module — and includes configurations for Fish shell, Neovim, Tmux, Git, and other essential development tools.
 
 ### Key Features
 
@@ -52,7 +52,8 @@ After installation, the `dot` command will be available globally for ongoing man
 │   ├── darwin.nix     # System module
 │   ├── packages.nix   # CLI tools (nixpkgs → environment.systemPackages)
 │   ├── homebrew.nix   # GUI casks + custom-tap brews (homebrew module)
-│   └── home.nix       # home-manager: symlinks home/ into ~
+│   ├── home.nix       # home-manager: symlinks home/ into ~, imports kitty.nix
+│   └── kitty.nix      # home-manager programs.kitty (terminal config)
 ├── CLAUDE.md          # Instructions for AI assistants
 └── README.md          # This file
 ```
@@ -230,7 +231,7 @@ dot package remove ripgrep
 - Toolchains: zig, wasmtime, wasm-tools
 
 **`nix/homebrew.nix`** — GUI casks + custom-tap brews managed by nix-darwin's Homebrew module:
-- Casks: raycast, cleanshot, orbstack, karabiner-elements, kitty, zed, yaak, claude-code
+- Casks: raycast, cleanshot, orbstack, karabiner-elements, zed, yaak, claude-code
 
 #### Package Notes
 
@@ -246,10 +247,11 @@ dot package remove ripgrep
 - **Neovim**: Lua-based configuration with lazy.nvim plugin manager
 - **Tmux**: Plugin management via TPM, session persistence, Vim-style navigation
 - **Git**: Conditional work configuration, custom aliases, GPG signing
+- **Kitty**: Declared in `nix/kitty.nix` via home-manager's `programs.kitty` (Catppuccin-Frappe from `kitty-themes`, keybindings, kitty-scrollback.nvim kitten); the package comes from `nix/packages.nix`
 
 ### Architecture Highlights
 
-- **home-manager**: Manages symlinks from `home/` to `~`, pointing at the live repo (`mkOutOfStoreSymlink`), so edits take effect immediately
+- **home-manager**: Manages symlinks from `home/` to `~`, pointing at the live repo (`mkOutOfStoreSymlink`), so edits take effect immediately; kitty is the exception, its `kitty.conf` is generated from `nix/kitty.nix`
 - **Modular Design**: Separate configs for different tools
 - **Conditional Loading**: Work-specific Git config for `~/Code/work/`
 - **Plugin Managers**: Each tool uses its own (lazy.nvim, TPM); fish plugins are vendored
@@ -321,6 +323,7 @@ dot package update  # or: sudo darwin-rebuild switch --flake ~/.dotfiles#$(scuti
 1. Edit files in `home/` directory, or through the `~` symlinks — they point at the repo, so it is the same file
 2. Test configuration changes
 3. Only a *new* file or directory needs `darwin-rebuild switch` to be linked
+4. Kitty is generated from `nix/kitty.nix`: edit it and run `darwin-rebuild switch` (running kitty windows reload automatically)
 
 #### Work-Specific Setup
 The system automatically applies work-specific Git configuration for repositories under `~/Code/work/`.

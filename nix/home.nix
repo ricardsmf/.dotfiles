@@ -29,6 +29,8 @@ let
       (lib.filterAttrs (name: type: lib.elem type types && name != ".gitignore") (builtins.readDir src));
 in
 {
+  imports = [ ./kitty.nix ];
+
   home.stateVersion = "26.11";
 
   home.file =

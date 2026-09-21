@@ -16,6 +16,7 @@
       "CronList"
     ]
   },
+  "model": "claude-fable-5-1[1m]",
   "disableBundledSkills": true,
   "hooks": {},
   "disableRemoteControl": true,
@@ -25,6 +26,5 @@
   "effortLevel": "high",
   "tui": "fullscreen",
   "theme": "dark",
-  "mcpServers": {},
-  "model": "opus[1m]"
+  "mcpServers": {}
 }

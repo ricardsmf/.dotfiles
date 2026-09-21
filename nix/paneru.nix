@@ -9,6 +9,7 @@
       options = {
         focus_follows_mouse = true;
         mouse_follows_focus = true;
+        horizontal_mouse_warp = 1;
         animation_speed = 15;
         preset_column_widths = [
           0.25

@@ -23,8 +23,12 @@
       bindings = {
         window_focus_west = "alt - h";
         window_focus_east = "alt - l";
+        window_focus_north = "alt - j";
+        window_focus_south = "alt - k";
         window_swap_west = "alt + shift - h";
         window_swap_east = "alt + shift - l";
+        window_swap_north = "alt + shift - j";
+        window_swap_south = "alt + shift - k";
         window_resize = "alt - r";
         window_shrink = "alt - s";
         window_center = "alt - c";

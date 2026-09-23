@@ -54,6 +54,9 @@ in
       tab_bar_style = "custom";
       # a shade darker than Ayu's #0e1419 so the sidebar reads as a panel
       tab_bar_background = "#0a0e12";
+      # unset, kitty paints the leftover pixels above the first tab with the
+      # color of its first cell, i.e. the blue active-tab marker
+      tab_bar_margin_color = "#0a0e12";
       tab_bar_show_new_tab_button = "yes";
       tab_bar_margin_width = "4.0";
       tab_bar_margin_height = "0.0 6.0";

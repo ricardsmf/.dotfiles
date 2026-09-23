@@ -16,7 +16,6 @@
     cmake
     direnv
     doggo
-    doppler
     fd
     ffmpeg
     fish

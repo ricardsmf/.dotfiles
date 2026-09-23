@@ -48,6 +48,9 @@ in
       show_hyperlink_targets = true;
       copy_on_select = true;
       enabled_layouts = "splits,stack";
+      tab_bar_edge = "left";
+      tab_bar_style = "separator";
+      tab_bar_show_new_bar = "yes";
     };
 
     actionAliases = {

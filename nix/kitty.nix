@@ -47,6 +47,7 @@ in
       select_by_word_characters = "@-./_~?&=%+#";
       show_hyperlink_targets = true;
       copy_on_select = true;
+      hide_window_decorations = "titlebar-only";
       enabled_layouts = "splits,stack";
       tab_bar_edge = "left";
       # draw_tab lives in nix/kitty-tab-bar.py (linked below)
@@ -108,6 +109,8 @@ in
       "cmd+shift+enter" = "launch --cwd=current --location=hsplit";
       # toggle a single window to fullscreen (uses the stack layout)
       "cmd+f" = "toggle_layout stack";
+      # show/hide the vertical tab bar (nix/kitty-toggle-tab-bar.py)
+      "cmd+b" = "kitten toggle_tab_bar.py";
 
       "f1" = "launch_window nvim";
       "f2" = "launch_window lazygit";
@@ -132,4 +135,6 @@ in
   # Out-of-store link so tab bar tweaks apply on kitty restart, no switch.
   xdg.configFile."kitty/tab_bar.py".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nix/kitty-tab-bar.py";
+  xdg.configFile."kitty/toggle_tab_bar.py".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nix/kitty-toggle-tab-bar.py";
 }

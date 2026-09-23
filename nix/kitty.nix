@@ -25,7 +25,7 @@ in
 
     # Same file kitty-themes ships as the previously vendored
     # catpuccin-frappe.conf; only the include path changes.
-    themeFile = "Catppuccin-Frappe";
+    themeFile = "Ayu";
 
     # Fish sources kitty's shell integration itself
     # (home/.config/fish/conf.d/kitty.fish), so kitty must not inject it.
@@ -49,8 +49,12 @@ in
       copy_on_select = true;
       enabled_layouts = "splits,stack";
       tab_bar_edge = "left";
-      tab_bar_style = "separator";
-      tab_bar_show_new_bar = "yes";
+      # draw_tab lives in nix/kitty-tab-bar.py (linked below)
+      tab_bar_style = "custom";
+      tab_bar_show_new_tab_button = "yes";
+      tab_bar_margin_width = "4.0";
+      tab_bar_margin_height = "0.0 6.0";
+      active_tab_font_style = "bold";
     };
 
     actionAliases = {
@@ -117,11 +121,15 @@ in
     mouseBindings = {
       # show clicked command output in nvim
       "ctrl+shift+right press ungrabbed" =
-        "combine : mouse_select_command_output : kitty_scrollback_nvim --config ksb_builtin_last_visited_cmd_output";
+      "combine : mouse_select_command_output : kitty_scrollback_nvim --config ksb_builtin_last_visited_cmd_output";
       "ctrl+left press ungrabbed,grabbed" = "mouse_click_url";
       "ctrl+alt+left press ungrabbed" = "mouse_selection rectangle";
       "left doublepress ungrabbed" = "mouse_selection word";
       "left press ungrabbed" = "mouse_selection normal";
     };
   };
+
+  # Out-of-store link so tab bar tweaks apply on kitty restart, no switch.
+  xdg.configFile."kitty/tab_bar.py".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nix/kitty-tab-bar.py";
 }

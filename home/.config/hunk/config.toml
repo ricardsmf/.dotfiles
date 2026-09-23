@@ -1,4 +1,4 @@
-theme = "catppuccin-macchiato"   # graphite, midnight, paper, ember, catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha, zenburn, custom
+theme = "ayu-dark"   # any bundled shiki theme id (ayu-dark, ayu-mirage, catppuccin-macchiato, github-dark, ...), or custom
 mode = "auto"        # auto, split, stack
 watch = false
 exclude_untracked = false

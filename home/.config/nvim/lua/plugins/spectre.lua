@@ -5,13 +5,14 @@ return {
 		cmd = { "Spectre" },
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"catppuccin/nvim",
+			"Shatur/neovim-ayu",
 		},
 		config = function()
-			local theme = require("catppuccin.palettes").get_palette("macchiato")
+			local colors = require("ayu.colors")
+			colors.generate(false)
 
-			vim.api.nvim_set_hl(0, "SpectreSearch", { bg = theme.red, fg = theme.base })
-			vim.api.nvim_set_hl(0, "SpectreReplace", { bg = theme.green, fg = theme.base })
+			vim.api.nvim_set_hl(0, "SpectreSearch", { bg = colors.error, fg = colors.bg })
+			vim.api.nvim_set_hl(0, "SpectreReplace", { bg = colors.string, fg = colors.bg })
 
 			require("spectre").setup({
 				highlight = {

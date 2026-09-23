@@ -3,8 +3,31 @@
 # avoid probing Node in repos that merely contain JS/TS files.
 command_timeout = 2000
 
-# Put custom.scm right after directory
-format = "$directory${custom.scm}$all"
+# ayu-dark, same hexes as tmux's @thm_* overrides and neovim-ayu. The standard
+# color names are redefined too, so every module's default style (and the ones
+# below) picks up ayu instead of kitty's older Ayu ANSI palette.
+palette = "ayu_dark"
+
+[palettes.ayu_dark]
+black = "#0B0E14"
+red = "#D95757"
+green = "#AAD94C"
+yellow = "#FFB454"
+blue = "#59C2FF"
+purple = "#D2A6FF"
+cyan = "#39BAE6"
+white = "#BFBDB6"
+bright-black = "#565B66"
+bright-red = "#F07178"
+bright-green = "#AAD94C"
+bright-yellow = "#E6B673"
+bright-blue = "#73B8FF"
+bright-purple = "#D2A6FF"
+bright-cyan = "#95E6CB"
+bright-white = "#BFBDB6"
+accent = "#E6B450"
+orange = "#FF8F40"
+comment = "#ACB6BF"
 
 [buf]
 disabled = true
@@ -13,18 +36,25 @@ disabled = true
 error_symbol = "[󰘧](bold red)"
 success_symbol = "[󰘧](bold green)"
 
+[cmd_duration]
+style = "bold comment"
+
 [directory]
+style = "bold blue"
+read_only_style = "red"
 truncate_to_repo = false
 
 [dotnet]
 detect_files = ["global.json", "Directory.Build.props", "Directory.Build.targets", "Packages.props"]
 
 [git_branch]
+style = "bold accent"
 # disabled = true
 symbol = " "
 truncation_length = 18
 
 [git_status]
+style = "bold orange"
 # disabled = true
 
 [git_commit]

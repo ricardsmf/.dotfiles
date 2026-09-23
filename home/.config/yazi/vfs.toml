@@ -1,5 +1,4 @@
-[services.webserver]
-type           = "sftp"
+[sftp.webserver]
 host           = "141.253.199.50"
 user           = "ubuntu"
 port           = 22

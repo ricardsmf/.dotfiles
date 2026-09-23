@@ -52,7 +52,7 @@ nvim/
 
 - tsserver via lspconfig (use typescript-tools.nvim)
 - nvim-cmp for completion (use blink.cmp)
-- Hardcode colorscheme (catppuccin-macchiato via plugin)
+- Hardcode colorscheme (ayu-dark via neovim-ayu)
 - Skip lazy loading for heavy plugins
 - LSP semantic highlights enabled (we disable @lsp groups)
 - Formatters without project config condition (conform checks for config files upward)

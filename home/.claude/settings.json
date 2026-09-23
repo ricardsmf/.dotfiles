@@ -21,7 +21,8 @@
   "disableRemoteControl": true,
   "disableWorkflows": true,
   "enabledPlugins": {
-    "show-me@skills": true
+    "show-me@skills": true,
+    "lua-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "skills": {
@@ -47,8 +48,12 @@
   "tui": "fullscreen",
   "theme": "dark",
   "editorMode": "normal",
-  "mcpServers": {},
   "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Bash(helm upgrade:*) in helm/chart-values/values-prod.yaml scope — Production Deploy overlap, treat prod helm writes as soft-denied",
+      "Bash(aws:*) commands targeting AWS_ROLE_PROD or prod-tagged resources in this repo"
+    ],
     "environment": [
       "### Org-wide",
       "**Organization**: Bloq.it (github.com/bloqit)",
@@ -75,11 +80,7 @@
       "**Trusted repo**: /Users/ricardoferreira/work/code/reports-app (origin github.com:bloqit/reports-app.git), private — confidential material OK to commit/push there; content ported from outside this repo is not its own work",
       "**Org-specific CLIs**: None configured",
       "routine under bloqit/reports-app repo paths (src/, drizzle/, helm/, docs/) is standard project development activity"
-    ],
-    "soft_deny": [
-      "$defaults",
-      "Bash(helm upgrade:*) in helm/chart-values/values-prod.yaml scope — Production Deploy overlap, treat prod helm writes as soft-denied",
-      "Bash(aws:*) commands targeting AWS_ROLE_PROD or prod-tagged resources in this repo"
     ]
-  }
+  },
+  "mcpServers": {}
 }

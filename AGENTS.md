@@ -24,7 +24,7 @@ the Lix installer and pinned by nix-darwin (`nix.package = pkgs.lixPackageSets.s
 │   ├── yazi/           # File manager
 │   ├── hunk/           # Diff viewer (modem-dev/tap)
 │   ├── karabiner/      # Hyper key (Caps Lock -> ctrl+opt+cmd+shift)
-│   ├── starship.toml   # Prompt (custom.scm, 2s timeout for Vite+)
+│   ├── starship.toml   # Prompt (ayu-dark palette, 2s timeout for Vite+)
 │   └── ripgrep/        # rg config
 ├── home/.pi/agent/     # Pi: settings.json + global AGENTS.md (rest is gitignored)
 ├── home/.claude/       # Claude Code: settings.json, CLAUDE.md, npm workspace
@@ -110,9 +110,9 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 | Fish | `config.fish` | Sources `conf.d/`, sets EDITOR/MANPAGER |
 | Neovim | `init.lua` | 1 line: `require("ricardsmf")` |
 | Tmux | `tmux.conf` | Prefix `C-a`, auto-installs TPM to `~/.local/share/tmux/plugins` |
-| Kitty | `nix/kitty.nix` | home-manager `programs.kitty`; theme `Catppuccin-Frappe` from `kitty-themes`; `cmd+s` scrollback in nvim |
+| Kitty | `nix/kitty.nix` | home-manager `programs.kitty`; theme `Ayu` from `kitty-themes`; custom vertical tab bar in `nix/kitty-tab-bar.py`; `cmd+s` scrollback in nvim |
 | Git | `config` | SSH signing, `pull.rebase`, conditional include |
-| Starship | `starship.toml` | 2s timeout (Vite+ shims), custom.scm after dir |
+| Starship | `starship.toml` | 2s timeout (Vite+ shims), ayu-dark palette |
 | Karabiner | `karabiner.json` | Caps Lock -> Hyper; `~/.config/karabiner` is a **dir** symlink |
 | Pi | `settings.json` | anthropic/claude-opus-5, thinking `high`, skills from `~/.claude/skills` |
 | Claude Code | `settings.json` + `CLAUDE.md` | 32 skills under `skills/`; npm workspace |
@@ -131,7 +131,7 @@ dot gen-ssh-key       # Generate ed25519 key by email domain
 - Hyper key is Karabiner's job, not Raycast's — Raycast's built-in Hyper Key is off
   (`raycast_hyperKey_state.enabled = false`). Raycast command hotkeys still bind to
   ⌃⌥⌘⇧ and keep working.
-- Theme: Catppuccin Macchiato across all tools
+- Theme: Ayu across kitty (`Ayu`), nvim (neovim-ayu `ayu-dark`), tmux (catppuccin plugin layout with `@thm_*` overridden to ayu-dark) and starship (`palettes.ayu_dark`, which also redefines the ANSI color names)
 
 ## NOTES
 

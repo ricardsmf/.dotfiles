@@ -49,7 +49,6 @@
     starship
     stylua
     svelte-language-server
-    tailscale
     tailwindcss-language-server
     tmux
     tree

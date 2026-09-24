@@ -61,5 +61,30 @@
   # Used for backwards compatibility — do not change after first switch.
   system.stateVersion = 5;
 
-  services.tailscale.enable = true;
+  # Keys live outside the repo and the store (root-only, created by hand).
+  networking.wg-quick.interfaces.vpn = {
+    address = [ "10.9.0.2/32" ];
+    privateKeyFile = "/etc/wireguard/keys/vpn.key";
+    peers = [
+      {
+        publicKey = "ViSB3x8ltJaA0cixQ+ZeYE/csollKughWNTpymwGr1U=";
+        presharedKeyFile = "/etc/wireguard/keys/vpn.psk";
+        endpoint = "wg.ricardsmf.me:51820";
+        allowedIPs = [ "10.9.0.0/24" ];
+        persistentKeepalive = 25;
+      }
+    ];
+  };
+
+  # launchd socket-activates sshd on every interface (ListenAddress is ignored),
+  # so AllowUsers is what limits logins to the WireGuard subnet.
+  services.openssh = {
+    enable = true;
+    extraConfig = ''
+      PasswordAuthentication no
+      KbdInteractiveAuthentication no
+      PermitRootLogin no
+      AllowUsers ricardoferreira@10.9.0.0/24
+    '';
+  };
 }
